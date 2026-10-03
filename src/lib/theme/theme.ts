@@ -360,8 +360,8 @@ bodyFont:
 			ornamentOpacity: 0.82,
 			textureOpacity: 0.08,
 
-			symbols: ['🦄', '☾', '✧', '♡', '❀'],
-			divider: '☾ ── ✧ ── 🦄 ── ✧ ── ☾'
+			symbols: ['☾', '✧', '♡', '❀'],
+			divider: '☾ ── ✧ ──  ── ✧ ── ☾'
 		}
 	},
 
