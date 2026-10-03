@@ -2730,11 +2730,11 @@
  */
 
 @media (max-width: 700px) {
-	:global(html[data-tecspa-theme='digital-cobalt']) .quick-link-card:hover,
-	:global(html[data-tecspa-theme='crimson-clinical']) .quick-link-card:hover,
-	:global(html[data-tecspa-theme='ashen-gothic']) .quick-link-card:hover {
-		transform: none;
-	}
+        :global(html[data-tecspa-theme='digital-cobalt']) .quick-link-card:hover,
+        :global(html[data-tecspa-theme='crimson-clinical']) .quick-link-card:hover,
+        :global(html[data-tecspa-theme='ashen-gothic']) .quick-link-card:hover {
+                transform: none;
+        }
 }
 
 /* =========================================================
