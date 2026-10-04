@@ -997,8 +997,7 @@
 	}
 
 	.intro-decoration {
-		text-align: center;
-	}
+		text-align: center;}
 
 	.portrait-frame {
 		position: relative;
@@ -1933,359 +1932,35 @@
    glossy blue • beveled UI • profile-page nostalgia
    ========================================================= */
 
-:global(html[data-tecspa-theme='digital-cobalt']) .background {
-	background:
-		linear-gradient(
-			rgba(255, 255, 255, 0.18) 1px,
-			transparent 1px
-		),
-		linear-gradient(
-			90deg,
-			rgba(0, 91, 180, 0.06) 1px,
-			transparent 1px
-		),
-		linear-gradient(
-			180deg,
-			#d9efff 0%,
-			#b9dcf7 45%,
-			#a8cfee 100%
-		);
-
-	background-size:
-		18px 18px,
-		18px 18px,
-		auto;
-}
-
-
-/* =========================================================
-   MAIN PAGE
-   ========================================================= */
-
-:global(html[data-tecspa-theme='digital-cobalt']) .page {
-	border:
-		2px solid #4f91c9;
-
-	border-radius: 4px;
-
-	background:
-		linear-gradient(
-			180deg,
-			#ffffff 0%,
-			#eef8ff 4%,
-			#e0f0fc 100%
-		);
-
-	box-shadow:
-		5px 6px 0 rgba(0, 66, 140, 0.16),
-		0 14px 35px rgba(0, 70, 150, 0.22),
-		inset 0 1px 0 white;
-}
-
-
-/* =========================================================
-   TOP NAVIGATION
-   ========================================================= */
-
-:global(html[data-tecspa-theme='digital-cobalt']) .top-navigation {
-	border:
-		1px solid #4f91c9;
-
-	border-radius: 3px;
-
-	background:
-		linear-gradient(
-			180deg,
-			#ffffff 0%,
-			#eaf7ff 42%,
-			#c7e5fa 50%,
-			#b0d8f2 100%
-		);
-
-	box-shadow:
-		2px 3px 0 rgba(0, 70, 145, 0.16),
-		inset 0 1px 0 white;
-
-	padding: 4px;
-}
-
-
-:global(html[data-tecspa-theme='digital-cobalt']) .top-nav-link {
-	border:
-		1px solid transparent;
-
-	border-radius: 2px;
-
-	color: #0758a8;
-
-	font-size: 0.78rem;
-	font-weight: 700;
-	letter-spacing: 0.04em;
-
-	text-shadow:
-		0 1px 0 white;
-
-	transition:
-		background 120ms ease,
-		border-color 120ms ease,
-		box-shadow 120ms ease;
-}
-
-
-:global(html[data-tecspa-theme='digital-cobalt']) .top-nav-link:hover {
-	border-color: #79aeda;
-
-	background:
-		linear-gradient(
-			180deg,
-			#ffffff,
-			#cce9ff
-		);
-
-	box-shadow:
-		inset 0 1px 0 white,
-		0 2px 4px rgba(0, 75, 155, 0.18);
-}
-
-
-:global(html[data-tecspa-theme='digital-cobalt']) .top-nav-link.active {
-	border-color: #4d91ce;
-
-	background:
-		linear-gradient(
-			180deg,
-			#dff3ff,
-			#acd7f4
-		);
-
-	box-shadow:
-		inset 0 1px 2px rgba(0, 65, 130, 0.15),
-		0 1px 0 white;
-}
-
-
-/* =========================================================
-   ORNAMENTAL HEADER
-   ========================================================= */
-
-:global(html[data-tecspa-theme='digital-cobalt']) .ornamental-header {
-	color: #1671c7;
-
-	text-shadow:
-		0 1px 0 white,
-		0 0 5px rgba(70, 170, 255, 0.45);
-}
-
-
-:global(html[data-tecspa-theme='digital-cobalt']) .ornamental-line {
-	background:
-		linear-gradient(
-			90deg,
-			transparent,
-			#5ea5d9,
-			transparent
-		);
-}
-
-
-/* =========================================================
-   HERO
-   ========================================================= */
-
-:global(html[data-tecspa-theme='digital-cobalt']) .hero {
-	border:
-		2px solid #5a9dd0;
-
-	border-radius: 3px;
-
-	background:
-		linear-gradient(
-			180deg,
-			rgba(255, 255, 255, 0.98) 0%,
-			rgba(228, 245, 255, 0.98) 46%,
-			rgba(186, 222, 247, 0.98) 100%
-		);
-
-	box-shadow:
-		3px 4px 0 rgba(0, 69, 145, 0.16),
-		inset 0 1px 0 white,
-		inset 0 -8px 18px rgba(35, 130, 205, 0.08);
-
-	overflow: hidden;
-}
-
-
-:global(html[data-tecspa-theme='digital-cobalt']) .hero::before {
-	content: '★  ✦  ★  ✦  ★';
-
-	position: absolute;
-
-	top: 8px;
-	left: 0;
-	right: 0;
-
-	color: rgba(0, 91, 180, 0.22);
-
-	font-size: 0.65rem;
-	letter-spacing: 0.8rem;
-
-	text-align: center;
-
-	pointer-events: none;
-}
-
-
-:global(html[data-tecspa-theme='digital-cobalt']) .hero-kicker {
-	color: #176ab6;
-
-	font-size: 0.68rem;
-	font-weight: 700;
-	letter-spacing: 0.12em;
-	text-transform: uppercase;
-
-	text-shadow:
-		0 1px 0 white;
-}
-
-
-:global(html[data-tecspa-theme='digital-cobalt']) h1 {
-	color: #0758b0;
-
-	font-family:
-		'Trebuchet MS',
-		Arial,
-		Helvetica,
-		sans-serif;
-
-	font-weight: 900;
-
-	letter-spacing: 0.025em;
-
-	text-shadow:
-		1px 2px 0 white,
-		2px 3px 0 rgba(40, 120, 190, 0.20);
-}
-
-
-:global(html[data-tecspa-theme='digital-cobalt']) .tagline {
-	color: #164c78;
-
-	font-weight: 700;
-}
-
-
-:global(html[data-tecspa-theme='digital-cobalt']) .hero-note {
-	color: #55758f;
-}
-
-
-/* =========================================================
-   STATUS STRIP
-   ========================================================= */
-
-:global(html[data-tecspa-theme='digital-cobalt']) .status-strip {
-	border:
-		1px solid #6fa5cf;
-
-	border-radius: 3px;
-
-	background:
-		linear-gradient(
-			180deg,
-			#ffffff,
-			#d9edfc
-		);
-
-	box-shadow:
-		2px 3px 0 rgba(0, 70, 145, 0.12),
-		inset 0 1px 0 white;
-}
-
-
-/* =========================================================
-   QUICK LINKS
-   ========================================================= */
-
-:global(html[data-tecspa-theme='digital-cobalt']) .quick-link-card {
-	border:
-		1px solid #619bc9;
-
-	border-radius: 3px;
-
-	background:
-		linear-gradient(
-			180deg,
-			#ffffff 0%,
-			#edf9ff 48%,
-			#d0e9fa 100%
-		);
-
-	box-shadow:
-		3px 4px 0 rgba(0, 69, 145, 0.14),
-		inset 0 1px 0 white;
-
-	position: relative;
-
-	transition:
-		transform 120ms ease,
-		box-shadow 120ms ease,
-		border-color 120ms ease;
-}
-
-
-:global(html[data-tecspa-theme='digital-cobalt']) .quick-link-card::before {
-	content: '★';
-
-	position: absolute;
-
-	top: 7px;
-	right: 9px;
-
-	color: rgba(0, 92, 190, 0.28);
-
-	font-size: 0.75rem;
-
-	text-shadow:
-		0 1px 0 white;
-
-	pointer-events: none;
-}
-
-
-:global(html[data-tecspa-theme='digital-cobalt']) .quick-link-card:hover {
-	transform: translate(-2px, -2px);
-
-	border-color: #4389c2;
-
-	box-shadow:
-		5px 6px 0 rgba(0, 65, 140, 0.18),
-		inset 0 1px 0 white;
-}
-
-
-/* =========================================================
-   GENERIC PANELS
-   ========================================================= */
-
-:global(html[data-tecspa-theme='digital-cobalt']) .panel,
-:global(html[data-tecspa-theme='digital-cobalt']) .quote-section {
+:global(html[data-tecspa-theme='digital-cobalt']) .panel {
 	border:
 		1px solid #78a9d0;
-
 	border-radius: 3px;
-
 	background:
 		linear-gradient(
 			180deg,
 			rgba(255, 255, 255, 0.98),
-			rgba(223, 240, 252, 0.96)
+			rgba(232, 243, 252, 0.98)
 		);
-
 	box-shadow:
-		3px 4px 0 rgba(0, 70, 145, 0.12),
-		inset 0 1px 0 white;
+		0 2px 8px rgba(25, 80, 130, 0.12),
+		inset 0 1px 0 rgba(255, 255, 255, 0.9);
 }
 
+:global(html[data-tecspa-theme='digital-cobalt']) .quote-section {
+	border:
+		1px solid #78a9d0;
+	border-radius: 3px;
+	background:
+		linear-gradient(
+			180deg,
+			rgba(255, 255, 255, 0.98),
+			rgba(232, 243, 252, 0.98)
+		);
+	box-shadow:
+		0 2px 8px rgba(25, 80, 130, 0.12),
+		inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
 
 /* =========================================================
    BUTTONS
@@ -2321,9 +1996,7 @@
 
 	box-shadow:
 		2px 3px 0 rgba(0, 65, 135, 0.14),
-		inset 0 1px 0 white;
-
-	transition:
+		inset 0 1px 0 white;transition:
 		transform 100ms ease,
 		box-shadow 100ms ease;
 }
@@ -2367,7 +2040,15 @@
 }
 
 
-:global(html[data-tecspa-theme='digital-cobalt']) .major-divider::before,
+:global(html[data-tecspa-theme='digital-cobalt']) .major-divider::before {
+	background:
+		linear-gradient(
+			90deg,
+			transparent,
+			#72acd4,
+			transparent
+		);
+}
 :global(html[data-tecspa-theme='digital-cobalt']) .major-divider::after {
 	background:
 		linear-gradient(
@@ -2507,8 +2188,32 @@
 
 /* Clinical panels */
 
-:global(html[data-tecspa-theme='crimson-clinical']) .panel,
-:global(html[data-tecspa-theme='crimson-clinical']) .status-strip,
+:global(html[data-tecspa-theme='crimson-clinical']) .panel {
+	border-color: rgba(110, 30, 40, 0.28);
+
+	background:
+		linear-gradient(
+			135deg,
+			rgba(252, 247, 247, 0.97),
+			rgba(237, 224, 226, 0.94)
+		);
+
+	box-shadow:
+		0 9px 22px rgba(80, 20, 30, 0.09);
+}
+:global(html[data-tecspa-theme='crimson-clinical']) .status-strip {
+	border-color: rgba(110, 30, 40, 0.28);
+
+	background:
+		linear-gradient(
+			135deg,
+			rgba(252, 247, 247, 0.97),
+			rgba(237, 224, 226, 0.94)
+		);
+
+	box-shadow:
+		0 9px 22px rgba(80, 20, 30, 0.09);
+}
 :global(html[data-tecspa-theme='crimson-clinical']) .quote-section {
 	border-color: rgba(110, 30, 40, 0.28);
 
@@ -2649,8 +2354,34 @@
 
 /* Ashen panels */
 
-:global(html[data-tecspa-theme='ashen-gothic']) .panel,
-:global(html[data-tecspa-theme='ashen-gothic']) .status-strip,
+:global(html[data-tecspa-theme='ashen-gothic']) .panel {
+	border-color: #514c4b;
+
+	background:
+		linear-gradient(
+			145deg,
+			#292727,
+			#201e1f
+		);
+
+	box-shadow:
+		0 18px 42px rgba(0, 0, 0, 0.48),
+		inset 0 1px 0 rgba(255, 255, 255, 0.035);
+}
+:global(html[data-tecspa-theme='ashen-gothic']) .status-strip {
+	border-color: #514c4b;
+
+	background:
+		linear-gradient(
+			145deg,
+			#292727,
+			#201e1f
+		);
+
+	box-shadow:
+		0 18px 42px rgba(0, 0, 0, 0.48),
+		inset 0 1px 0 rgba(255, 255, 255, 0.035);
+}
 :global(html[data-tecspa-theme='ashen-gothic']) .quote-section {
 	border-color: #514c4b;
 
@@ -2715,8 +2446,18 @@
  * in all three major theme worlds.
  */
 
-:global(html[data-tecspa-theme='digital-cobalt']) .quick-link-card,
-:global(html[data-tecspa-theme='crimson-clinical']) .quick-link-card,
+:global(html[data-tecspa-theme='digital-cobalt']) .quick-link-card {
+	transition:
+		transform 160ms ease,
+		box-shadow 160ms ease,
+		border-color 160ms ease;
+}
+:global(html[data-tecspa-theme='crimson-clinical']) .quick-link-card {
+	transition:
+		transform 160ms ease,
+		box-shadow 160ms ease,
+		border-color 160ms ease;
+}
 :global(html[data-tecspa-theme='ashen-gothic']) .quick-link-card {
 	transition:
 		transform 160ms ease,
@@ -2730,9 +2471,13 @@
  */
 
 @media (max-width: 700px) {
-        :global(html[data-tecspa-theme='digital-cobalt']) .quick-link-card:hover,
-        :global(html[data-tecspa-theme='crimson-clinical']) .quick-link-card:hover,
-        :global(html[data-tecspa-theme='ashen-gothic']) .quick-link-card:hover {
+:global(html[data-tecspa-theme='digital-cobalt']) .quick-link-card:hover {
+                transform: none;
+        }
+:global(html[data-tecspa-theme='crimson-clinical']) .quick-link-card:hover {
+                transform: none;
+        }
+:global(html[data-tecspa-theme='ashen-gothic']) .quick-link-card:hover {
                 transform: none;
         }
 }
@@ -2767,7 +2512,14 @@
 
 /* Left/right antique ornaments */
 
-:global(html[data-tecspa-theme='ashen-gothic'] .banner::before),
+:global(html[data-tecspa-theme='ashen-gothic'] .banner::before) {
+	color: #c7c0bd !important;
+
+	opacity: 0.42 !important;
+
+	text-shadow:
+		0 2px 5px rgba(0, 0, 0, 0.95);
+}
 :global(html[data-tecspa-theme='ashen-gothic'] .banner::after) {
 	color: #c7c0bd !important;
 
@@ -2780,7 +2532,12 @@
 
 /* Welcome label */
 
-:global(html[data-tecspa-theme='ashen-gothic'] .banner .small-label),
+:global(html[data-tecspa-theme='ashen-gothic'] .banner .small-label) {
+	color: #c7c0bd !important;
+
+	text-shadow:
+		0 2px 4px rgba(0, 0, 0, 0.95);
+}
 :global(html[data-tecspa-theme='ashen-gothic'] .banner .banner-label) {
 	color: #c7c0bd !important;
 
@@ -3321,8 +3078,7 @@
 	width: 120px;
 	height: 155px;
 	object-fit: contain;
-	opacity: 0.36;
-	filter: drop-shadow(0 2px 5px rgba(100, 91, 104, 0.12));
+	opacity: 0.36;filter: drop-shadow(0 2px 5px rgba(100, 91, 104, 0.12));
 	transform: rotate(4deg);
 }
 
@@ -3687,7 +3443,23 @@
    GENERIC PANELS
    ========================================================= */
 
-:global(html[data-tecspa-theme='gyaru-glam']) .panel,
+:global(html[data-tecspa-theme='gyaru-glam']) .panel {
+	border:
+		1px solid #d98daa;
+
+	border-radius: 4px;
+
+	background:
+		linear-gradient(
+			180deg,
+			rgba(255, 255, 255, 0.99),
+			rgba(250, 226, 238, 0.97)
+		);
+
+	box-shadow:
+		3px 4px 0 rgba(175, 35, 95, 0.12),
+		inset 0 1px 0 white;
+}
 :global(html[data-tecspa-theme='gyaru-glam']) .quote-section {
 	border:
 		1px solid #d98daa;
@@ -3780,7 +3552,15 @@
 	color: #cf0068;
 }
 
-:global(html[data-tecspa-theme='gyaru-glam']) .major-divider::before,
+:global(html[data-tecspa-theme='gyaru-glam']) .major-divider::before {
+	background:
+		linear-gradient(
+			90deg,
+			transparent,
+			#dc86a9,
+			transparent
+		);
+}
 :global(html[data-tecspa-theme='gyaru-glam']) .major-divider::after {
 	background:
 		linear-gradient(
@@ -3803,7 +3583,23 @@
    GYARU — LEOPARD / DECO ACCENTS
    ========================================================= */
 
-:global(html[data-tecspa-theme='gyaru-glam']) .panel::after,
+:global(html[data-tecspa-theme='gyaru-glam']) .panel::after {
+	content: '♡  ✧  ♡';
+
+	display: block;
+
+	margin-top: 0.65rem;
+
+	color: rgba(190, 0, 90, 0.38);
+
+	font-size: 0.68rem;
+
+	letter-spacing: 0.35rem;
+
+	text-align: right;
+
+	pointer-events: none;
+}
 :global(html[data-tecspa-theme='gyaru-glam']) .quote-section::after {
 	content: '♡  ✧  ♡';
 
