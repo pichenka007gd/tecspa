@@ -19,21 +19,21 @@
 		deleteJournalEntry
 	} from '$lib/repositories/journal';
 
-	let entry: JournalEntry | null = null;
-	let members: Member[] = [];
+let entry = $state<JournalEntry | null>(null);
+let members = $state<Member[]>([]);
 
-	let loading = true;
-	let editing = false;
-	let saving = false;
-	let deleting = false;
+let loading = $state(true);
+let editing = $state(false);
+let saving = $state(false);
+let deleting = $state(false);
 
-	let errorMessage = '';
+let errorMessage = $state('');
 
-	let entryType: 'journal' | 'note' = 'journal';
-	let title = '';
-	let body = '';
-	let authorMemberId = '';
-	let tagsText = '';
+let entryType = $state<'journal' | 'note'>('journal');
+let title = $state('');
+let body = $state('');
+let authorMemberId = $state('');
+let tagsText = $state('');
 
 	const entryId = $derived(
 		page.params.entry ?? ''
