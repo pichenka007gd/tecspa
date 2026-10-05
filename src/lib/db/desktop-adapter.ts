@@ -13,8 +13,6 @@ import { initializeDatabase } from '$lib/db/database';
 import { getDatabase } from '$lib/db/database';
 import type { AmpersandImportData } from '$lib/importers/ampersand';
 import type { AmpersandImportResult } from '$lib/repositories/ampersand-import';
-
-import { importAmpersandData } from '$lib/repositories/ampersand-import';
 import {
 	importAmpersandData as importAmpersandDataToSqlite
 } from '$lib/repositories/ampersand-import';
@@ -47,8 +45,16 @@ export class DesktopDataAdapter implements DataAdapter {
 
 	async importAmpersandData(
 	importData: AmpersandImportData
-) {
-	return importAmpersandDataToSqlite(importData);
+): Promise<AmpersandImportResult> {
+	const {
+		importAmpersandData
+	} = await import(
+		'$lib/repositories/ampersand-import'
+	);
+
+	return importAmpersandData(
+		importData
+	);
 }
 
 	async getMemberById(id: string): Promise<Member | null> {
