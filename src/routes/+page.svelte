@@ -84,8 +84,12 @@
 		<span>✦</span>
 		customize
 	</a>
-</nav>
 
+	<a href="/import" class="top-nav-link">
+		<span>⇩</span>
+		import
+	</a>
+</nav>
 		<!-- =================================================
 		     ORNAMENTAL HEADER
 		     ================================================= -->

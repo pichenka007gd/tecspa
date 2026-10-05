@@ -1,22 +1,10 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 
-	import { initializeDatabase } from '$lib/db/database';
-	import {
-		getMembers,
-		setMemberFronting
-	} from '$lib/repositories/members';
-
-	import {
-		getFrontHistory,
-		updateFrontHistoryNote,
-		deleteFrontHistoryEntry
-	} from '$lib/repositories/front-history';
-
-	import { memberImageUrl } from '$lib/media/member-media';
+	import { getDataAdapter } from '$lib/db/data-adapter';
 
 	import type { Member } from '$lib/data/members';
-	import type { FrontHistoryEntry } from '$lib/repositories/front-history';
+	import type { FrontHistoryEntry } from '$lib/data/activity';
 
 	let members: Member[] = [];
 	let avatarUrls: Record<string, string> = {};
@@ -49,37 +37,37 @@
 	});
 
 	async function loadMembers() {
-		try {
-			loading = true;
-			errorMessage = '';
+	try {
+		loading = true;
+		errorMessage = '';
 
-			await initializeDatabase();
+		const dataAdapter = getDataAdapter();
 
-			members = await getMembers();
-			frontHistory = await getFrontHistory();
+		members = await dataAdapter.getMembers();
+		frontHistory = await dataAdapter.getFrontHistory();
 
-			const entries = await Promise.all(
-				members
-					.filter((member) => member.avatar)
-					.map(async (member) => [
-						member.id,
-						await memberImageUrl(member.avatar)
-					] as const)
-			);
+		avatarUrls = Object.fromEntries(
+			members
+				.filter((member) => member.avatar)
+				.map((member) => [
+					member.id,
+					member.avatar
+				])
+		);
+	} catch (error) {
+		console.error(
+			'Failed to load fronting data:',
+			error
+		);
 
-			avatarUrls = Object.fromEntries(entries);
-		} catch (error) {
-			console.error('Failed to load fronting data:', error);
-
-			errorMessage =
-				error instanceof Error
-					? error.message
-					: 'Could not load fronting information.';
-		} finally {
-			loading = false;
-		}
+		errorMessage =
+			error instanceof Error
+				? error.message
+				: 'Could not load fronting information.';
+	} finally {
+		loading = false;
 	}
-
+}
 	async function toggleFronting(member: Member) {
 		if (savingId) {
 			return;
@@ -89,7 +77,10 @@
 		errorMessage = '';
 
 		try {
-			await setMemberFronting(member.id, !member.isFronting);
+			await getDataAdapter().setMemberFronting(
+	member.id,
+	!member.isFronting
+);
 
 			members = members.map((item) =>
 				item.id === member.id
@@ -100,7 +91,7 @@
 					: item
 			);
 
-			frontHistory = await getFrontHistory();
+			frontHistory = await getDataAdapter().getFrontHistory();
 		} catch (error) {
 			console.error('Failed to update fronting status:', error);
 
@@ -181,78 +172,86 @@
 	}
 
 	async function saveHistoryNote(entry: FrontHistoryEntry) {
-		if (historySavingId) {
-			return;
-		}
-
-		historySavingId = entry.id;
-		errorMessage = '';
-
-		try {
-			await updateFrontHistoryNote(
-				entry.id,
-				editingNote.trim()
-			);
-
-			frontHistory = frontHistory.map((item) =>
-				item.id === entry.id
-					? {
-							...item,
-							note: editingNote.trim()
-						}
-					: item
-			);
-
-			cancelEditingNote();
-		} catch (error) {
-			console.error('Failed to save front history note:', error);
-
-			errorMessage =
-				error instanceof Error
-					? error.message
-					: 'Could not save the history note.';
-		} finally {
-			historySavingId = '';
-		}
+	if (historySavingId) {
+		return;
 	}
 
-	async function removeHistoryEntry(entry: FrontHistoryEntry) {
-		if (historyDeletingId) {
-			return;
-		}
+	historySavingId = entry.id;
+	errorMessage = '';
 
-		const confirmed = window.confirm(
-			'Delete this front history entry? This cannot be undone.'
+	try {
+		await getDataAdapter().updateFrontHistoryNote(
+			entry.id,
+			editingNote.trim()
 		);
 
-		if (!confirmed) {
-			return;
-		}
+		frontHistory = frontHistory.map((item) =>
+			item.id === entry.id
+				? {
+						...item,
+						note: editingNote.trim()
+					}
+				: item
+		);
 
-		historyDeletingId = entry.id;
-		errorMessage = '';
+		cancelEditingNote();
+	} catch (error) {
+		console.error(
+			'Failed to save front history note:',
+			error
+		);
 
-		try {
-			await deleteFrontHistoryEntry(entry.id);
-
-			frontHistory = frontHistory.filter(
-				(item) => item.id !== entry.id
-			);
-
-			if (editingNoteId === entry.id) {
-				cancelEditingNote();
-			}
-		} catch (error) {
-			console.error('Failed to delete front history entry:', error);
-
-			errorMessage =
-				error instanceof Error
-					? error.message
-					: 'Could not delete the history entry.';
-		} finally {
-			historyDeletingId = '';
-		}
+		errorMessage =
+			error instanceof Error
+				? error.message
+				: 'Could not save the history note.';
+	} finally {
+		historySavingId = '';
 	}
+}
+
+	async function removeHistoryEntry(entry: FrontHistoryEntry) {
+	if (historyDeletingId) {
+		return;
+	}
+
+	const confirmed = window.confirm(
+		'Delete this front history entry? This cannot be undone.'
+	);
+
+	if (!confirmed) {
+		return;
+	}
+
+	historyDeletingId = entry.id;
+	errorMessage = '';
+
+	try {
+		await getDataAdapter().deleteFrontHistoryEntry(
+			entry.id
+		);
+
+		frontHistory = frontHistory.filter(
+			(item) => item.id !== entry.id
+		);
+
+		if (editingNoteId === entry.id) {
+			cancelEditingNote();
+		}
+	} catch (error) {
+		console.error(
+			'Failed to delete front history entry:',
+			error
+		);
+
+		errorMessage =
+			error instanceof Error
+				? error.message
+				: 'Could not delete the history entry.';
+	} finally {
+		historyDeletingId = '';
+	}
+}
 </script>
 
 <svelte:head>

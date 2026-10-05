@@ -4,14 +4,7 @@
 	import type { Member } from '$lib/data/members';
 	import type { JournalEntry } from '$lib/data/activity';
 
-	import { initializeDatabase } from '$lib/db/database';
-
-	import { getMembers } from '$lib/repositories/members';
-
-	import {
-		getJournalEntries,
-		setJournalEntryPinned
-	} from '$lib/repositories/journal';
+import { getDataAdapter } from '$lib/db/data-adapter';
 
 	let entries: JournalEntry[] = [];
 	let members: Member[] = [];
@@ -26,34 +19,34 @@
 	});
 
 	async function loadJournal() {
-		loading = true;
-		errorMessage = '';
+	loading = true;
+	errorMessage = '';
 
-		try {
-			await initializeDatabase();
+	try {
+		const dataAdapter = getDataAdapter();
 
-			const [loadedEntries, loadedMembers] =
-				await Promise.all([
-					getJournalEntries(),
-					getMembers()
-				]);
+		const [loadedEntries, loadedMembers] =
+			await Promise.all([
+				dataAdapter.getJournalEntries(),
+				dataAdapter.getMembers()
+			]);
 
-			entries = loadedEntries;
-			members = loadedMembers;
-		} catch (error) {
-			console.error(
-				'Failed to load journal:',
-				error
-			);
+		entries = loadedEntries;
+		members = loadedMembers;
+	} catch (error) {
+		console.error(
+			'Failed to load journal:',
+			error
+		);
 
-			errorMessage =
-				error instanceof Error
-					? error.message
-					: 'Could not load the journal.';
-		} finally {
-			loading = false;
-		}
+		errorMessage =
+			error instanceof Error
+				? error.message
+				: 'Could not load the journal.';
+	} finally {
+		loading = false;
 	}
+}
 
 	function memberName(
 		memberId: string | null
@@ -127,21 +120,21 @@ function previewText(
 		);
 	}
 
-	async function togglePinned(
+		async function togglePinned(
 		entry: JournalEntry
 	) {
 		try {
-			await setJournalEntryPinned(
-				entry.id,
-				!entry.isPinned
-			);
+			const dataAdapter = getDataAdapter();
+
+			const updatedEntry =
+				await dataAdapter.setJournalEntryPinned(
+					entry.id,
+					!entry.isPinned
+				);
 
 			entries = entries.map((item) =>
-				item.id === entry.id
-					? {
-							...item,
-							isPinned: !item.isPinned
-						}
+				item.id === updatedEntry.id
+					? updatedEntry
 					: item
 			);
 		} catch (error) {

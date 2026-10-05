@@ -3,10 +3,7 @@
 
 	import type { Member } from '$lib/data/members';
 
-	import { initializeDatabase } from '$lib/db/database';
-
-	import { getMembers } from '$lib/repositories/members';
-	import { createJournalEntry } from '$lib/repositories/journal';
+	import { getDataAdapter } from '$lib/db/data-adapter';
 
 	let members: Member[] = [];
 
@@ -24,23 +21,24 @@
 	});
 
 	async function loadMembers() {
-		try {
-			await initializeDatabase();
-			members = await getMembers();
-		} catch (error) {
-			console.error(
-				'Failed to load members:',
-				error
-			);
+	try {
+		const dataAdapter = getDataAdapter();
 
-			errorMessage =
-				error instanceof Error
-					? error.message
-					: 'Could not load members.';
-		}
+		members = await dataAdapter.getMembers();
+	} catch (error) {
+		console.error(
+			'Failed to load members:',
+			error
+		);
+
+		errorMessage =
+			error instanceof Error
+				? error.message
+				: 'Could not load members.';
 	}
+}
 
-	async function saveEntry() {
+		async function saveEntry() {
 		if (!body.trim()) {
 			errorMessage =
 				'The entry body cannot be empty.';
@@ -52,15 +50,15 @@
 		errorMessage = '';
 
 		try {
-			await initializeDatabase();
-
 			const tags = tagsText
 				.split(',')
 				.map((tag) => tag.trim())
 				.filter(Boolean);
 
+			const dataAdapter = getDataAdapter();
+
 			const entry =
-				await createJournalEntry({
+				await dataAdapter.createJournalEntry({
 					authorMemberId:
 						authorMemberId || null,
 

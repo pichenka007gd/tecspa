@@ -470,4 +470,5 @@ export async function initializeDatabase() {
 			);
 		}
 	}
+	return db;
 }

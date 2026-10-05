@@ -1,8 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 
-	import { createMember } from '$lib/repositories/members';
-	import { initializeDatabase } from '$lib/db/database';
+import { createMember } from '$lib/repositories/members';
 	import {
 		selectAndStoreMemberImage
 	} from '$lib/media/member-media';
@@ -100,7 +99,6 @@ function updateCustomField(
 		saving = true;
 
 		try {
-			await initializeDatabase();
 
 			const newMember: Member = {
 	id: memberId,

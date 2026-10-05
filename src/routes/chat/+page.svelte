@@ -3,18 +3,8 @@
 
 	import type { Member } from '$lib/data/members';
 	import type { ChatMessage } from '$lib/data/activity';
-
-	import { initializeDatabase } from '$lib/db/database';
 	import { memberImageUrl } from '$lib/media/member-media';
-
-	import { getMembers } from '$lib/repositories/members';
-
-	import {
-		getChatMessages,
-		createChatMessage,
-		updateChatMessage,
-		deleteChatMessage
-	} from '$lib/repositories/chat';
+import { getDataAdapter } from '$lib/db/data-adapter';
 
 	let members: Member[] = [];
 	let messages: ChatMessage[] = [];
@@ -108,13 +98,13 @@
 		errorMessage = '';
 
 		try {
-			await initializeDatabase();
+	const dataAdapter = getDataAdapter();
 
-			const loadedMembers =
-				await getMembers();
+	const loadedMembers =
+		await dataAdapter.getMembers();
 
-			const loadedMessages =
-				await getChatMessages();
+	const loadedMessages =
+		await dataAdapter.getChatMessages();
 
 			const resolvedAvatarUrls: Record<
 				string,
@@ -216,11 +206,13 @@
 		errorMessage = '';
 
 		try {
-			const created =
-				await createChatMessage(
-					selectedMemberId,
-					text
-				);
+			const dataAdapter = getDataAdapter();
+
+const created =
+	await dataAdapter.createChatMessage(
+		selectedMemberId,
+		text
+	);
 
 			messages = [
 				...messages,
@@ -267,22 +259,20 @@
 		}
 
 		try {
-			await updateChatMessage(
-				messageId,
-				text
-			);
+			const dataAdapter = getDataAdapter();
 
-			messages = messages.map(
-				(message) =>
-					message.id === messageId
-						? {
-								...message,
-								message: text,
-								editedAt:
-									new Date().toISOString()
-							}
-						: message
-			);
+const updated =
+	await dataAdapter.updateChatMessage(
+		messageId,
+		text
+	);
+
+messages = messages.map(
+	(message) =>
+		message.id === messageId
+			? updated
+			: message
+);
 
 			cancelEditing();
 		} catch (error) {
@@ -302,7 +292,11 @@
 		messageId: string
 	) {
 		try {
-			await deleteChatMessage(messageId);
+			const dataAdapter = getDataAdapter();
+
+await dataAdapter.deleteChatMessage(
+	messageId
+);
 
 			messages = messages.filter(
 				(message) =>

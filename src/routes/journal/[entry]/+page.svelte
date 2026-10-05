@@ -8,16 +8,7 @@
 
 	import Markdown from '$lib/components/Markdown.svelte';
 
-	import { initializeDatabase } from '$lib/db/database';
-
-	import { getMembers } from '$lib/repositories/members';
-
-	import {
-		getJournalEntryById,
-		updateJournalEntry,
-		setJournalEntryPinned,
-		deleteJournalEntry
-	} from '$lib/repositories/journal';
+import { getDataAdapter } from '$lib/db/data-adapter';
 
 let entry = $state<JournalEntry | null>(null);
 let members = $state<Member[]>([]);
@@ -44,99 +35,101 @@ let tagsText = $state('');
 	});
 
 	async function loadEntry() {
-		loading = true;
-		errorMessage = '';
+	loading = true;
+	errorMessage = '';
 
-		try {
-			await initializeDatabase();
+	try {
+		const dataAdapter = getDataAdapter();
 
-			const [loadedEntry, loadedMembers] =
-				await Promise.all([
-					getJournalEntryById(entryId),
-					getMembers()
-				]);
+		const [loadedEntry, loadedMembers] =
+			await Promise.all([
+				dataAdapter.getJournalEntryById(entryId),
+				dataAdapter.getMembers()
+			]);
 
-			entry = loadedEntry;
-			members = loadedMembers;
+		entry = loadedEntry;
+		members = loadedMembers;
 
-			if (!entry) {
-				errorMessage =
-					'This journal entry could not be found.';
-
-				return;
-			}
-
-			startEditingValues(entry);
-		} catch (error) {
-			console.error(
-				'Failed to load journal entry:',
-				error
-			);
-
+		if (!entry) {
 			errorMessage =
-				error instanceof Error
-					? error.message
-					: 'Could not load the entry.';
-		} finally {
-			loading = false;
-		}
-	}
-
-	function startEditingValues(
-		value: JournalEntry
-	) {
-		entryType = value.entryType;
-		title = value.title;
-		body = value.body;
-		authorMemberId =
-			value.authorMemberId ?? '';
-		tagsText = value.tags.join(', ');
-	}
-
-	function memberName(
-		memberId: string | null
-	): string {
-		if (!memberId) {
-			return 'system';
-		}
-
-		return (
-			members.find(
-				(member) => member.id === memberId
-			)?.name ?? 'unknown member'
-		);
-	}
-
-	function formatDate(
-		value: string
-	): string {
-		return new Intl.DateTimeFormat(
-			undefined,
-			{
-				dateStyle: 'medium',
-				timeStyle: 'short'
-			}
-		).format(new Date(value));
-	}
-
-	async function saveChanges() {
-		if (!entry || !body.trim()) {
-			errorMessage =
-				'The entry body cannot be empty.';
+				'This journal entry could not be found.';
 
 			return;
 		}
 
-		saving = true;
-		errorMessage = '';
+		startEditingValues(entry);
+	} catch (error) {
+		console.error(
+			'Failed to load journal entry:',
+			error
+		);
 
-		try {
-			const tags = tagsText
-				.split(',')
-				.map((tag) => tag.trim())
-				.filter(Boolean);
+		errorMessage =
+			error instanceof Error
+				? error.message
+				: 'Could not load the entry.';
+	} finally {
+		loading = false;
+	}
+	}
+function startEditingValues(
+	value: JournalEntry
+) {
+	entryType = value.entryType;
+	title = value.title;
+	body = value.body;
+	authorMemberId =
+		value.authorMemberId ?? '';
+	tagsText = value.tags.join(', ');
+}
 
-			await updateJournalEntry(
+function memberName(
+	memberId: string | null
+): string {
+	if (!memberId) {
+		return 'system';
+	}
+
+	return (
+		members.find(
+			(member) => member.id === memberId
+		)?.name ?? 'unknown member'
+	);
+}
+
+function formatDate(
+	value: string
+): string {
+	return new Intl.DateTimeFormat(
+		undefined,
+		{
+			dateStyle: 'medium',
+			timeStyle: 'short'
+		}
+	).format(new Date(value));
+}
+
+async function saveChanges() {
+	if (!entry || !body.trim()) {
+		errorMessage =
+			'The entry body cannot be empty.';
+
+		return;
+	}
+
+	saving = true;
+	errorMessage = '';
+
+	try {
+		const tags = tagsText
+			.split(',')
+			.map((tag) => tag.trim())
+			.filter(Boolean);
+
+		const dataAdapter = getDataAdapter();
+
+		const updatedEntry =
+			await dataAdapter.updateJournalEntry(
 				entry.id,
 				{
 					authorMemberId:
@@ -154,97 +147,91 @@ let tagsText = $state('');
 				}
 			);
 
-			entry = {
-				...entry,
-				authorMemberId:
-					authorMemberId || null,
-				entryType,
-				title: title.trim(),
-				body: body.trim(),
-				tags,
-				updatedAt:
-					new Date().toISOString()
-			};
+		entry = updatedEntry;
 
-			editing = false;
-		} catch (error) {
-			console.error(
-				'Failed to update journal entry:',
-				error
-			);
+		editing = false;
+	} catch (error) {
+		console.error(
+			'Failed to update journal entry:',
+			error
+		);
 
-			errorMessage =
-				error instanceof Error
-					? error.message
-					: 'Could not save the entry.';
-		} finally {
-			saving = false;
-		}
+		errorMessage =
+			error instanceof Error
+				? error.message
+				: 'Could not save the entry.';
+	} finally {
+		saving = false;
+	}
+}
+
+async function togglePinned() {
+	if (!entry) {
+		return;
 	}
 
-	async function togglePinned() {
-		if (!entry) {
-			return;
-		}
+	try {
+		const dataAdapter = getDataAdapter();
 
-		try {
-			await setJournalEntryPinned(
+		const updatedEntry =
+			await dataAdapter.setJournalEntryPinned(
 				entry.id,
 				!entry.isPinned
 			);
 
-			entry = {
-				...entry,
-				isPinned: !entry.isPinned
-			};
-		} catch (error) {
-			console.error(
-				'Failed to update pin:',
-				error
-			);
+		entry = updatedEntry;
+	} catch (error) {
+		console.error(
+			'Failed to update pin:',
+			error
+		);
 
-			errorMessage =
-				error instanceof Error
-					? error.message
-					: 'Could not update the pin.';
-		}
+		errorMessage =
+			error instanceof Error
+				? error.message
+				: 'Could not update the pin.';
+	}
+}
+
+async function removeEntry() {
+	if (!entry || deleting) {
+		return;
 	}
 
-	async function removeEntry() {
-		if (!entry || deleting) {
-			return;
-		}
+	const confirmed =
+		window.confirm(
+			'Delete this journal entry? This cannot be undone.'
+		);
 
-		const confirmed =
-			window.confirm(
-				'Delete this journal entry? This cannot be undone.'
-			);
-
-		if (!confirmed) {
-			return;
-		}
-
-		deleting = true;
-		errorMessage = '';
-
-		try {
-			await deleteJournalEntry(entry.id);
-
-			window.location.href = '/journal';
-		} catch (error) {
-			console.error(
-				'Failed to delete journal entry:',
-				error
-			);
-
-			errorMessage =
-				error instanceof Error
-					? error.message
-					: 'Could not delete the entry.';
-		} finally {
-			deleting = false;
-		}
+	if (!confirmed) {
+		return;
 	}
+
+	deleting = true;
+	errorMessage = '';
+
+	try {
+		const dataAdapter = getDataAdapter();
+
+		await dataAdapter.deleteJournalEntry(
+			entry.id
+		);
+
+		window.location.href = '/journal';
+	} catch (error) {
+		console.error(
+			'Failed to delete journal entry:',
+			error
+		);
+
+		errorMessage =
+			error instanceof Error
+				? error.message
+				: 'Could not delete the entry.';
+	} finally {
+		deleting = false;
+	}
+}
 </script>
 
 <svelte:head>

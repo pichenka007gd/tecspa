@@ -1,15 +1,14 @@
 <script lang="ts">
+console.log('PROFILE FILE LOADED');
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/state';
 import Markdown from '$lib/components/Markdown.svelte';
 
-	import { initializeDatabase } from '$lib/db/database';
+	import { getDataAdapter } from '$lib/db/data-adapter';
+	import { isDesktop } from '$lib/platform';
 
-	import {
-		getMemberById,
-		deleteMember
-	} from '$lib/repositories/members';
+import { deleteMember } from '$lib/repositories/members';
 
 	import {
 		deleteMemberMedia,
@@ -18,31 +17,41 @@ import Markdown from '$lib/components/Markdown.svelte';
 
 	import type { Member } from '$lib/data/members';
 
-	let member: Member | null = null;
+let member = $state<Member | null>(null);
 
-	let avatarUrl = '';
-	let bannerUrl = '';
+let avatarUrl = $state('');
+let bannerUrl = $state('');
 
-	let loading = true;
-	let deleting = false;
+let loading = $state(true);
+let deleting = $state(false);
 
-	let errorMessage = '';
+let errorMessage = $state('');
 
 	onMount(async () => {
-		try {
-			await initializeDatabase();
+	try {
+		console.log('PROFILE: onMount started');
 
-			const memberId = page.params.member;
+		const dataAdapter = getDataAdapter();
+		console.log('PROFILE: data adapter created', dataAdapter);
 
-			if (!memberId) {
-				errorMessage =
-					'No member ID was provided.';
-				return;
-			}
+		const memberId = page.params.member;
+		console.log('PROFILE: member ID', memberId);
 
-			const loadedMember =
-				await getMemberById(memberId);
+		if (!memberId) {
+			errorMessage =
+				'No member ID was provided.';
+			return;
+		}
 
+		console.log('PROFILE: about to call getMemberById');
+
+		const loadedMember =
+			await dataAdapter.getMemberById(memberId);
+
+		console.log(
+			'PROFILE: getMemberById finished',
+			loadedMember
+		);
 			if (!loadedMember) {
 				errorMessage =
 					'Member not found.';
@@ -56,19 +65,35 @@ import Markdown from '$lib/components/Markdown.svelte';
 			 * URLs that the Svelte UI can actually display.
 			 */
 
-			if (loadedMember.avatar) {
-				avatarUrl =
-					await memberImageUrl(
-						loadedMember.avatar
-					);
-			}
+if (loadedMember.avatar) {
+	if (
+		loadedMember.avatar.startsWith('data:') ||
+		loadedMember.avatar.startsWith('http://') ||
+		loadedMember.avatar.startsWith('https://') ||
+		loadedMember.avatar.startsWith('asset:')
+	) {
+		avatarUrl = loadedMember.avatar;
+	} else if (isDesktop()) {
+		avatarUrl = await memberImageUrl(
+			loadedMember.avatar
+		);
+	}
+}
 
-			if (loadedMember.banner) {
-				bannerUrl =
-					await memberImageUrl(
-						loadedMember.banner
-					);
-			}
+if (loadedMember.banner) {
+	if (
+		loadedMember.banner.startsWith('data:') ||
+		loadedMember.banner.startsWith('http://') ||
+		loadedMember.banner.startsWith('https://') ||
+		loadedMember.banner.startsWith('asset:')
+	) {
+		bannerUrl = loadedMember.banner;
+	} else if (isDesktop()) {
+		bannerUrl = await memberImageUrl(
+			loadedMember.banner
+		);
+	}
+}
 
 			console.log(
 				'Loaded member profile media:',
@@ -112,7 +137,6 @@ import Markdown from '$lib/components/Markdown.svelte';
 		errorMessage = '';
 
 		try {
-			await initializeDatabase();
 
 			await deleteMemberMedia(member);
 			await deleteMember(member.id);
@@ -356,11 +380,11 @@ import Markdown from '$lib/components/Markdown.svelte';
 
 				<h2>Your profile, your rules.</h2>
 
-				{#if member.customFields.length === 0}
+				{#if (member.customFields ?? []).length === 0}
 					<p class="body-text">No custom information has been added yet.</p>
 				{:else}
 					<div class="profile-custom-fields">
-						{#each member.customFields as field}
+						{#each (member.customFields ?? []) as field}
 							<article class="profile-custom-field">
 								<div class="profile-custom-field-header">
 									<div>

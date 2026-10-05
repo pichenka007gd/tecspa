@@ -3,11 +3,9 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/state';
 
-	import { initializeDatabase } from '$lib/db/database';
-	import {
-		getMemberById,
-		updateMember
-	} from '$lib/repositories/members';
+import { getDataAdapter } from '$lib/db/data-adapter';
+
+import { updateMember } from '$lib/repositories/members';
 	import {
 		memberImageUrl,
 		selectAndStoreMemberImage
@@ -38,16 +36,16 @@ let customFields: Member['customFields'] = [];
 
 	const memberId = page.url.searchParams.get('id');
 
-	onMount(async () => {
-		try {
-			await initializeDatabase();
+onMount(async () => {
+	try {
+		const dataAdapter = getDataAdapter();
 
-			if (!memberId) {
+		if (!memberId) {
 				errorMessage = 'No member ID was provided.';
 				return;
 			}
 
-			member = await getMemberById(memberId);
+			member = await dataAdapter.getMemberById(memberId);
 
 			if (!member) {
 				errorMessage = 'Member not found.';
@@ -173,7 +171,6 @@ let customFields: Member['customFields'] = [];
 		saving = true;
 
 		try {
-			await initializeDatabase();
 
 			const updatedMember: Member = {
 				id: member.id,

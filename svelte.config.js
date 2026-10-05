@@ -1,18 +1,30 @@
-// Tauri doesn't have a Node.js server to do proper SSR
-// so we use adapter-static with a fallback to index.html to put the site in SPA mode
-// See: https://svelte.dev/docs/kit/single-page-apps
-// See: https://v2.tauri.app/start/frontend/sveltekit/ for more info
-import adapter from "@sveltejs/adapter-static";
+import adapterStatic from "@sveltejs/adapter-static";
+import adapterNode from "@sveltejs/adapter-node";
 import { vitePreprocess } from "@sveltejs/vite-plugin-svelte";
+import process from "node:process";
+
+/**
+ * Tauri provides TAURI_ENV_PLATFORM when it runs the
+ * frontend's beforeDevCommand / beforeBuildCommand.
+ *
+ * When that variable exists, we build a static SPA for Tauri.
+ *
+ * When it does not exist, we build a normal Node-powered
+ * SvelteKit application for the web.
+ */
+const isTauriBuild = Boolean(process.env.TAURI_ENV_PLATFORM);
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
-  preprocess: vitePreprocess(),
-  kit: {
-    adapter: adapter({
-      fallback: "index.html",
-    }),
-  },
+	preprocess: vitePreprocess(),
+
+	kit: {
+		adapter: isTauriBuild
+			? adapterStatic({
+					fallback: "index.html",
+				})
+			: adapterNode(),
+	},
 };
 
 export default config;

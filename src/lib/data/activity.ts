@@ -34,6 +34,20 @@ export interface JournalEntry {
 
 /*
  * =========================================================
+ * FRONT HISTORY
+ * =========================================================
+ */
+
+export type FrontHistoryEntry = {
+	id: string;
+	memberId: string;
+	startedAt: string;
+	endedAt: string | null;
+	note: string;
+};
+
+/*
+ * =========================================================
  * POLLS
  * =========================================================
  */

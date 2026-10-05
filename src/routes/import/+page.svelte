@@ -1,16 +1,12 @@
 <script lang="ts">
-	import { open } from '@tauri-apps/plugin-dialog';
-	import { readTextFile } from '@tauri-apps/plugin-fs';
+	import { browser } from '$app/environment';
+	import { isDesktop } from '$lib/platform';
 
-	import {
-		parseAmpersandExport,
-		type AmpersandImportData
-	} from '$lib/importers/ampersand';
+	import { parseAmpersandExport } from '$lib/importers/ampersand';
+	import type { AmpersandImportData } from '$lib/importers/ampersand';
 
-	import {
-		importAmpersandData,
-		type AmpersandImportResult
-	} from '$lib/repositories/ampersand-import';
+	import type { AmpersandImportResult } from '$lib/repositories/ampersand-import';
+	import { getDataAdapter } from '$lib/db/data-adapter';
 
 	let selectedFile = '';
 
@@ -25,12 +21,21 @@
 	let importResult: AmpersandImportResult | null = null;
 
 	async function selectAmpersandExport() {
-		errorMessage = '';
-		importData = null;
-		selectedFile = '';
+	errorMessage = '';
+	importData = null;
+	selectedFile = '';
 
-		importComplete = false;
-		importResult = null;
+	importComplete = false;
+	importResult = null;
+
+	if (isDesktop()) {
+		const { open } = await import(
+			'@tauri-apps/plugin-dialog'
+		);
+
+		const { readTextFile } = await import(
+			'@tauri-apps/plugin-fs'
+		);
 
 		const selected = await open({
 			multiple: false,
@@ -64,45 +69,87 @@
 		} finally {
 			loading = false;
 		}
+
+		return;
 	}
 
-	async function confirmImport() {
-		if (!importData || importing || importComplete) {
+	if (!browser) {
+		return;
+	}
+
+	const input = document.createElement('input');
+
+	input.type = 'file';
+	input.accept = '.json,application/json';
+
+	input.onchange = async () => {
+		const file = input.files?.[0];
+
+		if (!file) {
 			return;
 		}
 
-		errorMessage = '';
-		importing = true;
+		selectedFile = file.name;
+		loading = true;
 
 		try {
-			importResult =
-				await importAmpersandData(
-					importData
-				);
+			const json = await file.text();
 
-			importComplete = true;
+			importData =
+				parseAmpersandExport(json);
 		} catch (error) {
 			errorMessage =
 				error instanceof Error
 					? error.message
-					: 'The system could not be imported.';
+					: 'The selected file could not be imported.';
 		} finally {
-			importing = false;
+			loading = false;
 		}
+	};
+
+	input.click();
+}
+
+	async function confirmImport() {
+	if (!importData || importing || importComplete) {
+		return;
 	}
 
-	function clearImport() {
-		selectedFile = '';
-		importData = null;
-		errorMessage = '';
+	errorMessage = '';
+	importing = true;
 
-		importComplete = false;
-		importResult = null;
-	}
+	try {
+		const dataAdapter =
+			getDataAdapter();
 
-	function fileName(path: string): string {
-		return path.split(/[\\/]/).pop() ?? path;
+		importResult =
+			await dataAdapter.importAmpersandData(
+				importData
+			);
+
+		importComplete = true;
+	} catch (error) {
+		errorMessage =
+			error instanceof Error
+				? error.message
+				: 'The system could not be imported.';
+	} finally {
+		importing = false;
 	}
+}
+
+function clearImport() {
+	selectedFile = '';
+	importData = null;
+	errorMessage = '';
+
+	importComplete = false;
+	importResult = null;
+}
+
+function fileName(path: string): string {
+	return path.split(/[\\/]/).pop() ?? path;
+}
 </script>
 
 <svelte:head>

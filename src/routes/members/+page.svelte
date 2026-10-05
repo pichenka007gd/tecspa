@@ -1,9 +1,10 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { initializeDatabase } from '$lib/db/database';
-	import { getMembers, setMemberFronting } from '$lib/repositories/members';
-	import { memberImageUrl } from '$lib/media/member-media';
-	import type { Member } from '$lib/data/members';
+import { setMemberFronting } from '$lib/repositories/members';
+import { getDataAdapter } from '$lib/db/data-adapter';
+import { memberImageUrl } from '$lib/media/member-media';
+import { isDesktop } from '$lib/platform';
+import type { Member } from '$lib/data/members';
 
 	let members: Member[] = [];
 	let avatarUrls: Record<string, string> = {};
@@ -38,27 +39,49 @@ async function toggleFronting(member: Member) {
 }
 
 	onMount(async () => {
-		try {
-			await initializeDatabase();
-			members = await getMembers();
+	try {
+		members = await getDataAdapter().getMembers();
 
-			const entries = await Promise.all(
-				members
-					.filter((member) => member.avatar)
-					.map(async (member) => [
-						member.id,
-						await memberImageUrl(member.avatar)
-					] as const)
-			);
+		const entries = await Promise.all(
+			members
+				.filter((member) => member.avatar)
+				.map(async (member) => {
+					const avatar = member.avatar;
 
-			avatarUrls = Object.fromEntries(entries);
-		} catch (error) {
-			console.error('Failed to load members:', error);
-			errorMessage = `Database error: ${String(error)}`;
-		} finally {
-			loading = false;
-		}
-	});
+					// Web browsers can use normal web/data/asset URLs
+					// directly. Desktop-only local media needs Tauri.
+					if (
+						avatar.startsWith('data:') ||
+						avatar.startsWith('http://') ||
+						avatar.startsWith('https://') ||
+						avatar.startsWith('asset:')
+					) {
+						return [member.id, avatar] as const;
+					}
+
+					if (isDesktop()) {
+						return [
+							member.id,
+							await memberImageUrl(avatar)
+						] as const;
+					}
+
+					// Local desktop media is not directly accessible
+					// from the web version yet.
+					return [member.id, ''] as const;
+				})
+		);
+
+		avatarUrls = Object.fromEntries(
+			entries.filter(([, url]) => url)
+		);
+	} catch (error) {
+		console.error('Failed to load members:', error);
+		errorMessage = `Database error: ${String(error)}`;
+	} finally {
+		loading = false;
+	}
+});
 </script>
 
 <svelte:head>
