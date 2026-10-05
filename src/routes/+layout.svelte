@@ -351,14 +351,27 @@
 	}
 
 	/* glossy old-Windows-ish panels */
-	:global(html[data-tecspa-theme='digital-cobalt'] .panel),
-	:global(html[data-tecspa-theme='digital-cobalt'] .card),
-	:global(html[data-tecspa-theme='digital-cobalt'] article) {
-		border-color: #80b4e8;
-		box-shadow:
-			inset 0 1px rgba(255, 255, 255, 0.95),
-			0 8px 25px rgba(0, 85, 180, 0.12);
-	}
+
+:global(html[data-tecspa-theme='digital-cobalt'] .panel) {
+	border-color: #80b4e8;
+	box-shadow:
+		inset 0 1px rgba(255, 255, 255, 0.95),
+		0 8px 25px rgba(0, 85, 180, 0.12);
+}
+
+:global(html[data-tecspa-theme='digital-cobalt'] .card) {
+	border-color: #80b4e8;
+	box-shadow:
+		inset 0 1px rgba(255, 255, 255, 0.95),
+		0 8px 25px rgba(0, 85, 180, 0.12);
+}
+
+:global(html[data-tecspa-theme='digital-cobalt'] article) {
+	border-color: #80b4e8;
+	box-shadow:
+		inset 0 1px rgba(255, 255, 255, 0.95),
+		0 8px 25px rgba(0, 85, 180, 0.12);
+}
 
 	/* =========================================================
 	   CRIMSON CLINICAL
