@@ -1307,4 +1307,66 @@
 		z-index: 1;
 	}	
 
+	/* =========================================================
+	   MOBILE FOUNDATION
+	   ========================================================= */
+
+	@media (max-width: 700px) {
+		:global(body) {
+			overflow-x: hidden;
+		}
+
+		.tecspa-shell {
+			width: 100%;
+			min-width: 0;
+		}
+
+		.page-content {
+			width: 100%;
+			min-width: 0;
+		}
+	}
+
+	@media (max-width: 480px) {
+		:global(body) {
+			font-size: 15px;
+		}
+
+		.page-content {
+			padding-left: 12px;
+			padding-right: 12px;
+		}
+	}
+
+/* =========================================================
+   MOBILE FOUNDATION
+   ========================================================= */
+
+@media (max-width: 700px) {
+	:global(body) {
+		overflow-x: hidden;
+	}
+
+	.tecspa-shell {
+		width: 100%;
+		min-width: 0;
+	}
+
+	.page-content {
+		width: 100%;
+		min-width: 0;
+	}
+}
+
+@media (max-width: 480px) {
+	:global(body) {
+		font-size: 15px;
+	}
+
+	.page-content {
+		padding-left: 12px;
+		padding-right: 12px;
+	}
+}
+
 </style>

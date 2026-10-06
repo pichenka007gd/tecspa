@@ -1847,60 +1847,108 @@
 	   MOBILE
 	   ========================================================= */
 
-	@media (max-width: 760px) {
-		.background {
-			padding: 10px 7px 35px;
-		}
+	@media (max-width: 650px) {
+	.top-navigation {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 4px;
 
-		.page {
-			width: calc(100% - 4px);
-
-			margin-top: 5px;
-
-			padding: 16px 18px 35px;
-		}
-
-		.top-navigation {
-			gap: 0;
-		}
-
-		.top-nav-link {
-			padding: 7px 10px;
-
-			font-size: 0.95rem;
-		}
-
-		.hero {
-			padding: 38px 18px 34px;
-		}
-
-		.hero-corner {
-			display: none;
-		}
-
-		.intro {
-			grid-template-columns: 1fr;
-
-			text-align: center;
-		}
-
-		.intro-copy {
-			margin-left: auto;
-			margin-right: auto;
-		}
-
-		.identity {
-			justify-content: center;
-		}
-
-		.link-grid {
-			grid-template-columns: 1fr;
-		}
-
-		.floating-decoration {
-			display: none;
-		}
+		width: 100%;
+		box-sizing: border-box;
+        
+		margin-bottom: 16px;
+		padding: 5px;
 	}
+
+	.top-navigation {
+		-webkit-tap-highlight-color: transparent;
+	}
+
+	.top-nav-link:active {
+		transform: translateY(0);
+		background:
+			color-mix(
+				in srgb,
+				var(--tecspa-accent) 12%,
+				transparent
+			);
+	}
+
+	.top-nav-link {
+		min-width: 0;
+		min-height: 44px;
+
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		box-sizing: border-box;
+
+		padding: 8px 6px;
+
+		gap: 6px;
+
+width: 100%;
+max-width: 100%;
+
+		font-size: 0.92rem;
+		line-height: 1.1;
+
+		border-radius: 2px;
+	}
+
+	.top-nav-link span {
+		flex: 0 0 auto;
+
+		font-size: 0.85rem;
+	}
+
+	.top-nav-link.active::after {
+		left: 12px;
+		right: 12px;
+		bottom: 3px;
+	}
+
+	.panel-header,
+	.preview-heading,
+	.file-picker,
+	.member-preview {
+		align-items: stretch;
+		flex-direction: column;
+	}
+
+	.panel-symbol {
+		display: none;
+	}
+
+	.ready-badge {
+		align-self: flex-start;
+	}
+}
+
+@media (max-width: 380px) {
+	.top-navigation {
+		gap: 3px;
+		padding: 4px;
+	}
+
+	.top-nav-link {
+		min-height: 46px;
+
+		padding: 8px 4px;
+
+		font-size: 0.84rem;
+	}
+
+	.top-nav-link span {
+		font-size: 0.8rem;
+	}
+
+	.top-nav-link.active::after {
+		left: 10px;
+		right: 10px;
+	}
+}
 
 	@media (max-width: 480px) {
 		.top-navigation {
@@ -1923,6 +1971,81 @@
 			max-width: 70%;
 		}
 	}
+
+/* =========================================================
+   MOBILE NAVIGATION
+   ========================================================= */
+
+@media (max-width: 650px) {
+	.top-navigation {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 4px;
+		width: 100%;
+		box-sizing: border-box;
+		margin-bottom: 16px;
+		padding: 5px;
+
+		-webkit-tap-highlight-color: transparent;
+	}
+
+	.top-nav-link {
+		min-width: 0;
+		min-height: 44px;
+
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		box-sizing: border-box;
+
+		padding: 8px 6px;
+		gap: 6px;
+
+		border-radius: 2px;
+
+		font-size: 0.92rem;
+		line-height: 1.1;
+	}
+
+	.top-nav-link span {
+		flex: 0 0 auto;
+		font-size: 0.85rem;
+	}
+
+	.top-nav-link.active::after {
+		left: 12px;
+		right: 12px;
+		bottom: 3px;
+	}
+
+	.top-nav-link:active {
+		transform: translateY(0);
+		background: color-mix(in srgb, var(--tecspa-accent) 12%, transparent);
+	}
+}
+
+@media (max-width: 380px) {
+	.top-navigation {
+		gap: 3px;
+		padding: 4px;
+	}
+
+	.top-nav-link {
+		min-height: 46px;
+		padding: 8px 4px;
+		font-size: 0.84rem;
+	}
+
+	.top-nav-link span {
+		font-size: 0.8rem;
+	}
+
+	.top-nav-link.active::after {
+		left: 10px;
+		right: 10px;
+	}
+}
 
 /* =========================================================
    LAYER 3B — THEME WORLD UI
@@ -3754,6 +3877,431 @@
 		right: 13%;
 		width: 105px;
 		height: 55px;
+	}
+}
+
+/* =========================================================
+   MOBILE FOUNDATION
+   ========================================================= */
+
+@media (max-width: 700px) {
+	:global(body) {
+		overflow-x: hidden;
+	}
+
+	.tecspa-shell {
+		width: 100%;
+		min-width: 0;
+	}
+
+	.page-content {
+		width: 100%;
+		min-width: 0;
+	}
+}
+
+@media (max-width: 480px) {
+	:global(body) {
+		font-size: 15px;
+	}
+
+	.page-content {
+		padding-left: 12px;
+		padding-right: 12px;
+	}
+}
+
+/* =========================================================
+   MOBILE MEMBERS — COMPLETE MOBILE PRESENTATION
+   ========================================================= */
+
+@media (max-width: 700px) {
+	/* -----------------------------------------------------
+	   Members page container
+	   ----------------------------------------------------- */
+
+	.member-list {
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		gap: 18px;
+	}
+
+	/* -----------------------------------------------------
+	   Member card
+	   ----------------------------------------------------- */
+
+	.member-card {
+		position: relative;
+
+		width: 100%;
+		max-width: 100%;
+		min-width: 0;
+
+		box-sizing: border-box;
+
+		display: flex;
+		flex-direction: column;
+		align-items: stretch;
+
+		overflow: hidden;
+
+		padding: 0;
+
+		border: 1px solid var(--tecspa-border);
+
+		background:
+			linear-gradient(
+				to bottom,
+				color-mix(in srgb, var(--tecspa-surface) 94%, transparent),
+				color-mix(in srgb, var(--tecspa-surface) 82%, transparent)
+			);
+
+		box-shadow:
+			0 2px 8px color-mix(in srgb, var(--tecspa-text) 8%, transparent);
+
+		transition:
+			transform 160ms ease,
+			box-shadow 160ms ease,
+			border-color 160ms ease;
+	}
+
+	.member-card:hover {
+		transform: translateY(-2px);
+
+		border-color:
+			color-mix(
+				in srgb,
+				var(--tecspa-accent) 55%,
+				var(--tecspa-border)
+			);
+
+		box-shadow:
+			0 6px 18px color-mix(in srgb, var(--tecspa-text) 12%, transparent);
+	}
+
+	/* -----------------------------------------------------
+	   Avatar
+	   ----------------------------------------------------- */
+
+	.member-card .avatar {
+		position: relative;
+
+		width: 100%;
+		height: 220px;
+
+		flex: 0 0 220px;
+
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		box-sizing: border-box;
+
+		overflow: hidden;
+
+		border: 0;
+		border-bottom: 1px solid var(--tecspa-border);
+
+		background:
+			radial-gradient(
+				circle at center,
+				color-mix(in srgb, var(--tecspa-accent) 12%, transparent),
+				transparent 68%
+			),
+			color-mix(in srgb, var(--tecspa-surface) 92%, transparent);
+
+		color: var(--tecspa-accent);
+
+		font-family: var(--tecspa-heading-font);
+		font-size: 4rem;
+	}
+
+	.member-card .avatar img {
+		display: block;
+
+		width: 100%;
+		height: 100%;
+
+		object-fit: cover;
+
+		border-radius: 0;
+	}
+
+	/* -----------------------------------------------------
+	   Member information
+	   ----------------------------------------------------- */
+
+	.member-info {
+		width: 100%;
+		min-width: 0;
+
+		box-sizing: border-box;
+
+		padding: 20px 18px 18px;
+	}
+
+	.member-number {
+		margin: 0 0 5px;
+
+		color: var(--tecspa-accent);
+
+		font-family: var(--tecspa-heading-font);
+		font-size: 0.75rem;
+		font-weight: 700;
+		letter-spacing: 0.12em;
+	}
+
+	.member-info h2 {
+		margin: 0;
+
+		max-width: 100%;
+
+		overflow-wrap: anywhere;
+		word-break: break-word;
+
+		color: var(--tecspa-text);
+
+		font-family: var(--tecspa-heading-font);
+		font-size: clamp(1.55rem, 7vw, 2.2rem);
+		line-height: 1.05;
+	}
+
+	.pronouns {
+		margin: 7px 0 0;
+
+		color: var(--tecspa-text-muted);
+
+		font-size: 0.9rem;
+		line-height: 1.4;
+	}
+
+	.description {
+		margin: 14px 0 0;
+
+		max-width: 100%;
+
+		overflow-wrap: anywhere;
+		word-break: break-word;
+
+		color: var(--tecspa-text);
+
+		font-size: 0.95rem;
+		line-height: 1.65;
+	}
+
+	/* -----------------------------------------------------
+	   Actions
+	   ----------------------------------------------------- */
+
+	.member-actions {
+		width: 100%;
+
+		display: flex;
+		flex-direction: column;
+
+		gap: 9px;
+
+		margin-top: 20px;
+	}
+
+	.view-profile,
+	.fronting-button {
+		width: 100%;
+		min-height: 46px;
+
+		box-sizing: border-box;
+
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		padding: 10px 14px;
+
+		border: 1px solid var(--tecspa-border);
+		border-radius: 2px;
+
+		font-family: var(--tecspa-heading-font);
+		font-size: 0.88rem;
+		font-weight: 600;
+		letter-spacing: 0.03em;
+
+		cursor: pointer;
+
+		transition:
+			background 160ms ease,
+			color 160ms ease,
+			border-color 160ms ease,
+			transform 160ms ease;
+	}
+
+	.view-profile {
+		gap: 8px;
+
+		color: var(--tecspa-accent-dark);
+
+		text-decoration: none;
+
+		background:
+			color-mix(
+				in srgb,
+				var(--tecspa-accent) 6%,
+				transparent
+			);
+	}
+
+	.view-profile span {
+		font-size: 1rem;
+	}
+
+	.view-profile:hover {
+		color: var(--tecspa-accent-dark);
+
+		border-color: var(--tecspa-accent);
+
+		background:
+			color-mix(
+				in srgb,
+				var(--tecspa-accent) 12%,
+				transparent
+			);
+
+		transform: translateY(-1px);
+	}
+
+	.fronting-button {
+		color: var(--tecspa-text-muted);
+
+		background:
+			color-mix(
+				in srgb,
+				var(--tecspa-surface) 80%,
+				transparent
+			);
+	}
+
+	.fronting-button:hover {
+		color: var(--tecspa-accent-dark);
+
+		border-color: var(--tecspa-accent);
+
+		background:
+			color-mix(
+				in srgb,
+				var(--tecspa-accent) 9%,
+				transparent
+			);
+
+		transform: translateY(-1px);
+	}
+
+	.fronting-button.fronting-active {
+		color: var(--tecspa-accent-dark);
+
+		border-color: var(--tecspa-accent);
+
+		background:
+			color-mix(
+				in srgb,
+				var(--tecspa-accent) 15%,
+				transparent
+			);
+
+		box-shadow:
+			0 0 0 1px
+			color-mix(
+				in srgb,
+				var(--tecspa-accent) 10%,
+				transparent
+			) inset;
+	}
+
+	.view-profile:active,
+	.fronting-button:active {
+		transform: translateY(0);
+	}
+
+	/* -----------------------------------------------------
+	   Empty state
+	   ----------------------------------------------------- */
+
+	.empty-state {
+		width: 100%;
+		box-sizing: border-box;
+
+		padding: 32px 20px;
+
+		text-align: center;
+
+		border: 1px solid var(--tecspa-border);
+
+		background:
+			color-mix(
+				in srgb,
+				var(--tecspa-surface) 82%,
+				transparent
+			);
+	}
+
+	.empty-state p {
+		max-width: 100%;
+
+		overflow-wrap: anywhere;
+	}
+}
+
+
+/* =========================================================
+   SMALL PHONE
+   ========================================================= */
+
+@media (max-width: 420px) {
+	.member-list {
+		gap: 14px;
+	}
+
+	.member-card .avatar {
+		height: 190px;
+		flex-basis: 190px;
+	}
+
+	.member-info {
+		padding: 17px 15px 15px;
+	}
+
+	.member-info h2 {
+		font-size: clamp(1.4rem, 8vw, 1.9rem);
+	}
+
+	.description {
+		font-size: 0.92rem;
+		line-height: 1.6;
+	}
+
+	.view-profile,
+	.fronting-button {
+		min-height: 48px;
+		font-size: 0.84rem;
+	}
+}
+
+
+/* =========================================================
+   VERY SMALL PHONE
+   ========================================================= */
+
+@media (max-width: 350px) {
+	.member-card .avatar {
+		height: 165px;
+		flex-basis: 165px;
+	}
+
+	.member-info {
+		padding: 15px 13px 13px;
+	}
+
+	.member-actions {
+		margin-top: 16px;
 	}
 }
 
