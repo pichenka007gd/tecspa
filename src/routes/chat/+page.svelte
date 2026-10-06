@@ -1390,4 +1390,926 @@ await dataAdapter.deleteChatMessage(
 			max-width: 55%;
 		}
 	}
+
+/* =========================================================
+   TECSPA CHAT — MOBILE REBUILD
+   ========================================================= */
+
+@media (max-width: 700px) {
+	/* -----------------------------------------------------
+	   PAGE FOUNDATION
+	   ----------------------------------------------------- */
+
+	.chat-page {
+		width: 100%;
+		max-width: 100%;
+		min-width: 0;
+
+		box-sizing: border-box;
+
+		padding: 18px 10px 28px;
+
+		overflow-x: hidden;
+	}
+
+	.page-header {
+		width: 100%;
+		max-width: 100%;
+		min-width: 0;
+
+		box-sizing: border-box;
+
+		display: flex;
+		align-items: flex-start;
+		justify-content: space-between;
+
+		gap: 12px;
+
+		margin-bottom: 16px;
+	}
+
+	.page-header > div:first-child {
+		min-width: 0;
+		max-width: 100%;
+	}
+
+	.back-button {
+		margin-bottom: 10px;
+	}
+
+	.page-header h1 {
+		max-width: 100%;
+
+		font-size: clamp(2.2rem, 12vw, 3.4rem);
+		line-height: 0.98;
+
+		overflow-wrap: anywhere;
+		word-break: break-word;
+	}
+
+	.subtitle {
+		max-width: 100%;
+
+		font-size: 0.82rem;
+		line-height: 1.6;
+
+		overflow-wrap: anywhere;
+		word-break: break-word;
+	}
+
+	.header-symbol {
+		flex: 0 0 auto;
+
+		padding-top: 28px;
+
+		font-size: 1rem;
+	}
+
+	/* -----------------------------------------------------
+	   ERROR
+	   ----------------------------------------------------- */
+
+	.error-banner {
+		width: 100%;
+		max-width: 100%;
+
+		box-sizing: border-box;
+
+		align-items: stretch;
+		flex-direction: column;
+
+		gap: 7px;
+
+		margin-bottom: 12px;
+		padding: 12px 13px;
+	}
+
+	.error-banner span {
+		width: 100%;
+		min-width: 0;
+
+		overflow-wrap: anywhere;
+		word-break: break-word;
+	}
+
+	.error-banner button {
+		align-self: flex-start;
+
+		min-height: 42px;
+
+		padding: 8px 12px;
+	}
+
+	/* -----------------------------------------------------
+	   MAIN CHAT SHELL
+	   ----------------------------------------------------- */
+
+	.chat-shell {
+		width: 100%;
+		max-width: 100%;
+		min-width: 0;
+
+		display: flex;
+		flex-direction: column;
+
+		min-height: 0;
+
+		box-sizing: border-box;
+
+		overflow: hidden;
+	}
+
+	/* -----------------------------------------------------
+	   HEADMATE SELECTOR
+	   ----------------------------------------------------- */
+
+	.chat-sidebar {
+		width: 100%;
+		max-width: 100%;
+		min-width: 0;
+
+		box-sizing: border-box;
+
+		border-right: 0;
+		border-bottom: 1px solid var(--tecspa-border);
+	}
+
+	.sidebar-heading {
+		width: 100%;
+		max-width: 100%;
+
+		box-sizing: border-box;
+
+		padding: 12px 13px;
+
+		gap: 10px;
+	}
+
+	.sidebar-heading h2 {
+		font-size: 1rem;
+	}
+
+	.sidebar-count {
+		min-width: 30px;
+
+		padding: 4px 8px;
+	}
+
+	/* Horizontal scrolling member picker.
+	   This is much better on a phone than a 280px sidebar. */
+
+	.chat-sidebar .member-list {
+		width: 100%;
+		max-width: 100%;
+		min-width: 0;
+
+		display: flex;
+
+		flex-direction: row;
+
+		gap: 8px;
+
+		box-sizing: border-box;
+
+		padding: 9px 10px 12px;
+
+		overflow-x: auto;
+		overflow-y: hidden;
+
+		scrollbar-width: thin;
+
+		-webkit-overflow-scrolling: touch;
+	}
+
+	.chat-sidebar .member-button {
+		flex: 0 0 auto;
+
+		width: auto;
+		min-width: 108px;
+		max-width: 145px;
+
+		min-height: 72px;
+
+		display: flex;
+		align-items: center;
+
+		gap: 8px;
+
+		box-sizing: border-box;
+
+		padding: 8px;
+
+		border-color: var(--tecspa-border);
+
+		background: color-mix(
+			in srgb,
+			var(--tecspa-surface) 75%,
+			transparent
+		);
+
+		-webkit-tap-highlight-color: transparent;
+	}
+
+	.chat-sidebar .member-button.active {
+		border-color: var(--tecspa-accent);
+
+		background:
+			color-mix(
+				in srgb,
+				var(--tecspa-accent) 10%,
+				var(--tecspa-surface)
+			);
+	}
+
+	.chat-sidebar .member-avatar {
+		position: relative;
+
+		width: 42px;
+		height: 42px;
+
+		flex: 0 0 42px;
+
+		box-sizing: border-box;
+
+		overflow: hidden;
+	}
+
+	.chat-sidebar .member-avatar img {
+		width: 100%;
+		height: 100%;
+
+		display: block;
+
+		object-fit: cover;
+	}
+
+	.chat-sidebar .member-info {
+		min-width: 0;
+		max-width: 100%;
+	}
+
+	.chat-sidebar .member-info strong,
+	.chat-sidebar .member-info span {
+		display: block;
+
+		max-width: 100%;
+
+		overflow: hidden;
+
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	.chat-sidebar .member-info strong {
+		font-size: 0.78rem;
+	}
+
+	.chat-sidebar .member-info span {
+		margin-top: 2px;
+
+		font-size: 0.64rem;
+	}
+
+	.chat-sidebar .selected-mark {
+		margin-left: auto;
+
+		flex: 0 0 auto;
+
+		color: var(--tecspa-accent);
+
+		font-size: 0.8rem;
+	}
+
+	.chat-sidebar .fronting-dot {
+		position: absolute;
+
+		right: 0;
+		bottom: 0;
+
+		width: 10px;
+		height: 10px;
+
+		border: 2px solid var(--tecspa-surface);
+
+		border-radius: 50%;
+
+		background: var(--tecspa-accent);
+	}
+
+	.sidebar-loading,
+	.sidebar-empty {
+		padding: 16px 13px;
+
+		font-size: 0.8rem;
+		line-height: 1.5;
+	}
+
+	/* -----------------------------------------------------
+	   CHAT MAIN
+	   ----------------------------------------------------- */
+
+	.chat-main {
+		width: 100%;
+		max-width: 100%;
+		min-width: 0;
+
+		display: flex;
+		flex-direction: column;
+
+		box-sizing: border-box;
+
+		min-height: 600px;
+	}
+
+	.chat-topbar {
+		width: 100%;
+		max-width: 100%;
+		min-width: 0;
+
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+
+		gap: 10px;
+
+		box-sizing: border-box;
+
+		padding: 13px;
+
+		border-bottom: 1px solid var(--tecspa-border);
+	}
+
+	.chat-topbar > div:first-child {
+		min-width: 0;
+		max-width: 100%;
+	}
+
+	.chat-topbar h2 {
+		max-width: 100%;
+
+		margin-top: 2px;
+
+		font-size: clamp(1.25rem, 7vw, 1.8rem);
+		line-height: 1.05;
+
+		overflow-wrap: anywhere;
+		word-break: break-word;
+	}
+
+	.message-count {
+		flex: 0 0 auto;
+
+		font-size: 0.65rem;
+	}
+
+	/* -----------------------------------------------------
+	   MESSAGE AREA
+	   ----------------------------------------------------- */
+
+	.messages {
+		width: 100%;
+		max-width: 100%;
+		min-width: 0;
+
+		box-sizing: border-box;
+
+		min-height: 380px;
+		max-height: none;
+
+		padding: 14px 11px;
+
+		overflow-x: hidden;
+		overflow-y: auto;
+	}
+
+	.date-divider {
+		width: 100%;
+		max-width: 100%;
+
+		box-sizing: border-box;
+
+		margin: 10px 0 14px;
+
+		text-align: center;
+	}
+
+	.date-divider span {
+		display: inline-block;
+
+		max-width: 100%;
+
+		padding: 4px 9px;
+
+		border: 1px solid var(--tecspa-border);
+		border-radius: 999px;
+
+		background: var(--tecspa-surface);
+
+		color: var(--tecspa-text-muted);
+
+		font-size: 0.62rem;
+		line-height: 1.3;
+	}
+
+	/* -----------------------------------------------------
+	   MESSAGE ROWS
+	   ----------------------------------------------------- */
+
+	.message-row {
+		width: 100%;
+		max-width: 100%;
+		min-width: 0;
+
+		display: flex;
+		align-items: flex-start;
+
+		gap: 8px;
+
+		box-sizing: border-box;
+
+		margin-bottom: 13px;
+	}
+
+	.message-row.own {
+		flex-direction: row-reverse;
+	}
+
+	.message-avatar {
+		width: 34px;
+		height: 34px;
+
+		flex: 0 0 34px;
+
+		box-sizing: border-box;
+
+		overflow: hidden;
+
+		border: 1px solid var(--tecspa-border);
+		border-radius: 50%;
+
+		background: var(--tecspa-surface-alt);
+	}
+
+	.message-avatar img {
+		width: 100%;
+		height: 100%;
+
+		display: block;
+
+		object-fit: cover;
+	}
+
+	.message-content {
+		flex: 1 1 auto;
+
+		width: 0;
+		min-width: 0;
+		max-width: min(82%, 430px);
+	}
+
+	.message-row.own .message-content {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-end;
+	}
+
+	.message-meta {
+		width: 100%;
+		max-width: 100%;
+		min-width: 0;
+
+		display: flex;
+		align-items: baseline;
+		flex-wrap: wrap;
+
+		gap: 5px;
+
+		margin-bottom: 4px;
+	}
+
+	.message-row.own .message-meta {
+		justify-content: flex-end;
+	}
+
+	.message-meta strong {
+		max-width: 100%;
+
+		font-size: 0.72rem;
+
+		overflow-wrap: anywhere;
+		word-break: break-word;
+	}
+
+	.message-meta span {
+		color: var(--tecspa-text-muted);
+
+		font-size: 0.62rem;
+	}
+
+	.message-bubble {
+		width: fit-content;
+		max-width: 100%;
+
+		box-sizing: border-box;
+
+		padding: 9px 11px;
+
+		border: 1px solid var(--tecspa-border);
+		border-radius: 12px 12px 12px 3px;
+
+		background:
+			color-mix(
+				in srgb,
+				var(--tecspa-surface-alt) 78%,
+				transparent
+			);
+
+		color: var(--tecspa-text);
+
+		font-size: 0.82rem;
+		line-height: 1.55;
+
+		overflow-wrap: anywhere;
+		word-break: break-word;
+
+		white-space: pre-wrap;
+	}
+
+	.message-row.own .message-bubble {
+		border-radius: 12px 12px 3px 12px;
+
+		border-color:
+			color-mix(
+				in srgb,
+				var(--tecspa-accent) 45%,
+				var(--tecspa-border)
+			);
+
+		background:
+			color-mix(
+				in srgb,
+				var(--tecspa-accent) 10%,
+				var(--tecspa-surface)
+			);
+	}
+
+	.message-actions {
+		display: flex;
+		flex-wrap: wrap;
+
+		gap: 4px;
+
+		margin-top: 3px;
+	}
+
+	.message-row.own .message-actions {
+		justify-content: flex-end;
+	}
+
+	.message-actions button {
+		min-height: 30px;
+
+		padding: 4px 7px;
+
+		border: 0;
+		background: transparent;
+
+		color: var(--tecspa-text-muted);
+
+		font-size: 0.6rem;
+
+		cursor: pointer;
+	}
+
+	.message-actions button:hover {
+		color: var(--tecspa-accent);
+	}
+
+	/* -----------------------------------------------------
+	   EDITING
+	   ----------------------------------------------------- */
+
+	.edit-box {
+		width: 100%;
+		max-width: 100%;
+
+		box-sizing: border-box;
+	}
+
+	.edit-box textarea {
+		width: 100%;
+		max-width: 100%;
+
+		box-sizing: border-box;
+
+		min-height: 90px;
+
+		padding: 9px;
+
+		font: inherit;
+		font-size: 0.82rem;
+		line-height: 1.5;
+
+		resize: vertical;
+	}
+
+	.edit-actions {
+		width: 100%;
+
+		display: flex;
+		flex-direction: column;
+
+		gap: 6px;
+
+		margin-top: 6px;
+	}
+
+	.edit-actions button {
+		width: 100%;
+		min-height: 42px;
+
+		box-sizing: border-box;
+	}
+
+	/* -----------------------------------------------------
+	   EMPTY CHAT
+	   ----------------------------------------------------- */
+
+	.empty-chat {
+		width: 100%;
+		max-width: 100%;
+
+		box-sizing: border-box;
+
+		padding: 45px 18px;
+
+		text-align: center;
+	}
+
+	.empty-chat h3 {
+		max-width: 100%;
+
+		font-size: 1.35rem;
+
+		overflow-wrap: anywhere;
+	}
+
+	.empty-chat p {
+		max-width: 100%;
+
+		font-size: 0.8rem;
+		line-height: 1.6;
+
+		overflow-wrap: anywhere;
+	}
+
+	.empty-symbol {
+		font-size: 2.5rem;
+	}
+
+	/* -----------------------------------------------------
+	   COMPOSER
+	   ----------------------------------------------------- */
+
+	.composer {
+		width: 100%;
+		max-width: 100%;
+		min-width: 0;
+
+		box-sizing: border-box;
+
+		padding: 11px;
+
+		border-top: 1px solid var(--tecspa-border);
+
+		background:
+			color-mix(
+				in srgb,
+				var(--tecspa-surface) 96%,
+				transparent
+			);
+	}
+
+	.composer-identity {
+		width: 100%;
+		max-width: 100%;
+		min-width: 0;
+
+		display: flex;
+		align-items: center;
+
+		gap: 8px;
+
+		margin-bottom: 8px;
+	}
+
+	.composer-avatar {
+		width: 34px;
+		height: 34px;
+
+		flex: 0 0 34px;
+
+		box-sizing: border-box;
+
+		overflow: hidden;
+
+		border: 1px solid var(--tecspa-border);
+		border-radius: 50%;
+	}
+
+	.composer-avatar img {
+		width: 100%;
+		height: 100%;
+
+		display: block;
+
+		object-fit: cover;
+	}
+
+	.composer-identity > div:last-child {
+		min-width: 0;
+		max-width: 100%;
+	}
+
+	.composer-label {
+		display: block;
+
+		margin-bottom: 2px;
+
+		color: var(--tecspa-text-muted);
+
+		font-size: 0.6rem;
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+	}
+
+	.composer-identity strong {
+		display: block;
+
+		max-width: 100%;
+
+		font-size: 0.78rem;
+
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	.composer > textarea {
+		width: 100%;
+		max-width: 100%;
+
+		box-sizing: border-box;
+
+		min-height: 78px;
+
+		padding: 10px;
+
+		border: 1px solid var(--tecspa-border);
+		border-radius: 8px;
+
+		background: var(--tecspa-surface-alt);
+		color: var(--tecspa-text);
+
+		font: inherit;
+		font-size: 0.82rem;
+		line-height: 1.5;
+
+		resize: vertical;
+	}
+
+	.composer-footer {
+		width: 100%;
+		max-width: 100%;
+		min-width: 0;
+
+		display: flex;
+		flex-direction: column;
+
+		gap: 8px;
+
+		box-sizing: border-box;
+
+		margin-top: 8px;
+	}
+
+	.composer-footer > span {
+		max-width: 100%;
+
+		color: var(--tecspa-text-muted);
+
+		font-size: 0.62rem;
+		line-height: 1.4;
+
+		overflow-wrap: anywhere;
+	}
+
+	.send-button {
+		width: 100%;
+		min-height: 46px;
+
+		box-sizing: border-box;
+
+		border: 1px solid var(--tecspa-accent);
+		border-radius: 3px;
+
+		background: var(--tecspa-accent);
+		color: white;
+
+		font: inherit;
+		font-size: 0.8rem;
+		font-weight: 800;
+
+		cursor: pointer;
+	}
+
+	.send-button:disabled {
+		opacity: 0.45;
+		cursor: not-allowed;
+	}
+
+	/* -----------------------------------------------------
+	   HARD OVERFLOW SAFETY
+	   ----------------------------------------------------- */
+
+	.chat-page *,
+	.chat-page *::before,
+	.chat-page *::after {
+		min-width: 0;
+		max-width: 100%;
+	}
+
+	.chat-page img,
+	.chat-page textarea,
+	.chat-page button {
+		max-width: 100%;
+	}
+}
+
+
+/* =========================================================
+   SMALL PHONE
+   ========================================================= */
+
+@media (max-width: 420px) {
+	.chat-page {
+		padding-left: 6px;
+		padding-right: 6px;
+	}
+
+	.page-header {
+		gap: 6px;
+	}
+
+	.header-symbol {
+		font-size: 0.85rem;
+	}
+
+	.chat-sidebar .member-button {
+		min-width: 100px;
+	}
+
+	.message-content {
+		max-width: 84%;
+	}
+
+	.message-bubble {
+		font-size: 0.79rem;
+	}
+}
+
+
+/* =========================================================
+   VERY SMALL PHONE
+   ========================================================= */
+
+@media (max-width: 350px) {
+	.chat-page {
+		padding-left: 4px;
+		padding-right: 4px;
+	}
+
+	.chat-sidebar .member-button {
+		min-width: 92px;
+	}
+
+	.chat-sidebar .member-avatar {
+		width: 36px;
+		height: 36px;
+
+		flex-basis: 36px;
+	}
+
+	.message-avatar {
+		width: 30px;
+		height: 30px;
+
+		flex-basis: 30px;
+	}
+
+	.message-content {
+		max-width: 86%;
+	}
+}
+
 </style>

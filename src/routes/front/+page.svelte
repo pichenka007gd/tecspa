@@ -1685,4 +1685,847 @@
 			align-items: center;
 		}
 	}
+
+/* =========================================================
+   TECSPA FRONT — MOBILE REBUILD
+   ========================================================= */
+
+@media (max-width: 700px) {
+	/* -----------------------------------------------------
+	   PAGE FOUNDATION
+	   ----------------------------------------------------- */
+
+	.page-shell {
+		width: 100%;
+		max-width: 100%;
+		min-width: 0;
+
+		box-sizing: border-box;
+
+		padding-left: 10px;
+		padding-right: 10px;
+
+		overflow-x: hidden;
+	}
+
+	.page-header {
+		width: 100%;
+		max-width: 100%;
+		min-width: 0;
+
+		box-sizing: border-box;
+
+		padding: 26px 14px 18px;
+
+		overflow: hidden;
+	}
+
+	.page-header > div:first-child {
+		width: 100%;
+		max-width: 100%;
+		min-width: 0;
+	}
+
+	.header-ornament {
+		font-size: 1.8rem;
+	}
+
+	.eyebrow {
+		max-width: 100%;
+
+		overflow-wrap: anywhere;
+		word-break: break-word;
+	}
+
+	.page-header h1 {
+		max-width: 100%;
+
+		font-size: clamp(2.25rem, 11vw, 3.6rem);
+		line-height: 1;
+
+		overflow-wrap: anywhere;
+		word-break: break-word;
+	}
+
+	.subtitle {
+		max-width: 100%;
+
+		font-size: 0.84rem;
+		line-height: 1.65;
+
+		overflow-wrap: anywhere;
+		word-break: break-word;
+	}
+
+	/* -----------------------------------------------------
+	   PAGE NAVIGATION
+	   ----------------------------------------------------- */
+
+	.page-navigation {
+		width: 100%;
+		max-width: 100%;
+
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+
+		gap: 4px;
+
+		box-sizing: border-box;
+
+		margin-top: 20px;
+		padding: 5px;
+	}
+
+	.page-navigation a {
+		min-width: 0;
+		min-height: 44px;
+
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		box-sizing: border-box;
+
+		padding: 8px 5px;
+
+		text-align: center;
+
+		font-size: 0.84rem;
+		line-height: 1.15;
+
+		overflow-wrap: anywhere;
+	}
+
+	.page-navigation a span {
+		flex: 0 0 auto;
+	}
+
+	/* -----------------------------------------------------
+	   DIVIDERS
+	   ----------------------------------------------------- */
+
+	.ornament-divider {
+		width: 100%;
+		max-width: 100%;
+
+		display: flex;
+		align-items: center;
+
+		gap: 7px;
+
+		box-sizing: border-box;
+
+		overflow: hidden;
+	}
+
+	.ornament-divider span {
+		flex: 0 0 auto;
+	}
+
+	.ornament-divider span:nth-child(2),
+	.ornament-divider span:nth-child(4) {
+		flex: 1;
+		min-width: 0;
+
+		overflow: hidden;
+		white-space: nowrap;
+	}
+
+	/* -----------------------------------------------------
+	   LOADING / ERROR PANELS
+	   ----------------------------------------------------- */
+
+	.message-panel {
+		width: 100%;
+		max-width: 100%;
+		min-width: 0;
+
+		box-sizing: border-box;
+
+		padding: 30px 18px;
+
+		overflow: hidden;
+	}
+
+	.message-panel h2,
+	.message-panel p {
+		max-width: 100%;
+
+		overflow-wrap: anywhere;
+		word-break: break-word;
+	}
+
+	.message-panel button {
+		min-height: 46px;
+
+		padding: 10px 18px;
+	}
+
+	/* -----------------------------------------------------
+	   MAIN SECTIONS
+	   ----------------------------------------------------- */
+
+	.front-section {
+		width: 100%;
+		max-width: 100%;
+		min-width: 0;
+
+		box-sizing: border-box;
+
+		margin: 0;
+		padding: 24px 10px;
+	}
+
+	.section-heading {
+		width: 100%;
+		max-width: 100%;
+		min-width: 0;
+
+		display: flex;
+		flex-direction: column;
+		align-items: stretch;
+
+		gap: 14px;
+
+		box-sizing: border-box;
+	}
+
+	.section-heading > div {
+		min-width: 0;
+		max-width: 100%;
+	}
+
+	.section-heading h2 {
+		max-width: 100%;
+
+		font-size: clamp(1.9rem, 9vw, 3rem);
+		line-height: 1.05;
+
+		overflow-wrap: anywhere;
+		word-break: break-word;
+	}
+
+	.section-description {
+		max-width: 100%;
+
+		font-size: 0.84rem;
+		line-height: 1.6;
+
+		overflow-wrap: anywhere;
+		word-break: break-word;
+	}
+
+	.front-count,
+	.history-count {
+		align-self: flex-start;
+
+		box-sizing: border-box;
+
+		padding: 9px 14px;
+	}
+
+	.front-count strong,
+	.history-count strong {
+		font-size: 1.4rem;
+	}
+
+	/* -----------------------------------------------------
+	   CURRENT FRONTERS
+	   ----------------------------------------------------- */
+
+	.fronter-grid {
+		width: 100%;
+		max-width: 100%;
+		min-width: 0;
+
+		display: grid;
+		grid-template-columns: 1fr;
+
+		gap: 14px;
+
+		box-sizing: border-box;
+
+		margin-top: 20px;
+	}
+
+	.fronter-card {
+		width: 100%;
+		max-width: 100%;
+		min-width: 0;
+
+		box-sizing: border-box;
+
+		overflow: hidden;
+	}
+
+	.fronter-main {
+		width: 100%;
+		max-width: 100%;
+		min-width: 0;
+
+		display: flex;
+		flex-direction: column;
+
+		box-sizing: border-box;
+	}
+
+	.fronter-card .avatar {
+		width: 100%;
+		max-width: 100%;
+
+		height: 205px;
+
+		flex: 0 0 205px;
+
+		box-sizing: border-box;
+
+		overflow: hidden;
+	}
+
+	.fronter-card .avatar img {
+		display: block;
+
+		width: 100%;
+		height: 100%;
+
+		object-fit: cover;
+	}
+
+	.fronter-details {
+		width: 100%;
+		max-width: 100%;
+		min-width: 0;
+
+		box-sizing: border-box;
+
+		padding: 17px 16px 16px;
+	}
+
+	.front-label {
+		max-width: 100%;
+
+		font-size: 0.7rem;
+		letter-spacing: 0.1em;
+	}
+
+	.fronter-details h3 {
+		max-width: 100%;
+
+		margin: 5px 0 0;
+
+		font-size: clamp(1.55rem, 8vw, 2.3rem);
+		line-height: 1.05;
+
+		overflow-wrap: anywhere;
+		word-break: break-word;
+	}
+
+	.fronter-details .pronouns {
+		max-width: 100%;
+
+		overflow-wrap: anywhere;
+	}
+
+	.fronter-actions {
+		width: 100%;
+		max-width: 100%;
+
+		display: flex;
+		flex-direction: column;
+
+		gap: 8px;
+
+		box-sizing: border-box;
+
+		padding: 0 16px 16px;
+	}
+
+	.fronter-actions a,
+	.fronter-actions button {
+		width: 100%;
+		min-height: 46px;
+
+		box-sizing: border-box;
+
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	/* -----------------------------------------------------
+	   SET SOMEONE FRONTING
+	   ----------------------------------------------------- */
+
+	.member-list {
+		width: 100%;
+		max-width: 100%;
+		min-width: 0;
+
+		display: flex;
+		flex-direction: column;
+
+		gap: 10px;
+
+		box-sizing: border-box;
+
+		margin-top: 18px;
+	}
+
+	.member-row {
+		width: 100%;
+		max-width: 100%;
+		min-width: 0;
+
+		display: flex;
+		flex-direction: column;
+
+		gap: 10px;
+
+		box-sizing: border-box;
+
+		padding: 12px;
+	}
+
+	.member-row-main {
+		width: 100%;
+		max-width: 100%;
+		min-width: 0;
+
+		display: flex;
+		align-items: center;
+
+		gap: 12px;
+
+		box-sizing: border-box;
+
+		overflow: hidden;
+	}
+
+	.member-row-main > div:last-child {
+		min-width: 0;
+		max-width: 100%;
+	}
+
+	.member-row-main strong {
+		display: block;
+
+		max-width: 100%;
+
+		font-size: 1rem;
+
+		overflow-wrap: anywhere;
+		word-break: break-word;
+	}
+
+	.member-row-main span {
+		display: block;
+
+		max-width: 100%;
+
+		font-size: 0.78rem;
+
+		overflow-wrap: anywhere;
+		word-break: break-word;
+	}
+
+	.small-avatar {
+		width: 54px;
+		height: 54px;
+
+		flex: 0 0 54px;
+
+		box-sizing: border-box;
+
+		overflow: hidden;
+	}
+
+	.small-avatar img {
+		width: 100%;
+		height: 100%;
+
+		display: block;
+
+		object-fit: cover;
+	}
+
+	.set-button {
+		width: 100%;
+		min-height: 46px;
+
+		box-sizing: border-box;
+
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		padding: 10px 12px;
+
+		font-size: 0.82rem;
+	}
+
+	/* -----------------------------------------------------
+	   EMPTY STATES
+	   ----------------------------------------------------- */
+
+	.empty-front {
+		width: 100%;
+		max-width: 100%;
+		min-width: 0;
+
+		box-sizing: border-box;
+
+		padding: 30px 18px;
+
+		overflow: hidden;
+	}
+
+	.empty-front h3 {
+		max-width: 100%;
+
+		font-size: 1.5rem;
+		line-height: 1.15;
+
+		overflow-wrap: anywhere;
+		word-break: break-word;
+	}
+
+	.empty-front p {
+		max-width: 100%;
+
+		font-size: 0.85rem;
+		line-height: 1.65;
+
+		overflow-wrap: anywhere;
+		word-break: break-word;
+	}
+
+	/* -----------------------------------------------------
+	   FRONT HISTORY
+	   ----------------------------------------------------- */
+
+	.history-section {
+		width: 100%;
+		max-width: 100%;
+		min-width: 0;
+
+		box-sizing: border-box;
+	}
+
+	.history-list {
+		width: 100%;
+		max-width: 100%;
+		min-width: 0;
+
+		display: flex;
+		flex-direction: column;
+
+		gap: 12px;
+
+		box-sizing: border-box;
+
+		margin-top: 20px;
+	}
+
+	.history-entry {
+		width: 100%;
+		max-width: 100%;
+		min-width: 0;
+
+		display: flex;
+		align-items: flex-start;
+
+		gap: 12px;
+
+		box-sizing: border-box;
+
+		padding: 14px;
+	}
+
+	.history-marker {
+		width: 44px;
+		height: 44px;
+
+		flex: 0 0 44px;
+
+		box-sizing: border-box;
+
+		overflow: hidden;
+	}
+
+	.history-marker img {
+		width: 100%;
+		height: 100%;
+
+		display: block;
+
+		object-fit: cover;
+	}
+
+	.history-content {
+		flex: 1 1 auto;
+
+		width: 0;
+		min-width: 0;
+		max-width: 100%;
+	}
+
+	.history-top {
+		width: 100%;
+		max-width: 100%;
+		min-width: 0;
+
+		display: flex;
+		flex-direction: column;
+
+		gap: 12px;
+	}
+
+	.history-member-line {
+		width: 100%;
+		max-width: 100%;
+		min-width: 0;
+
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+
+		gap: 6px;
+	}
+
+	.history-member-line a {
+		max-width: 100%;
+
+		font-size: 1rem;
+
+		overflow-wrap: anywhere;
+		word-break: break-word;
+	}
+
+	.history-live {
+		max-width: 100%;
+
+		font-size: 0.65rem;
+
+		overflow-wrap: anywhere;
+	}
+
+	.history-date {
+		max-width: 100%;
+
+		display: flex;
+		flex-wrap: wrap;
+
+		gap: 5px;
+
+		margin: 6px 0 0;
+
+		font-size: 0.72rem;
+		line-height: 1.5;
+
+		overflow-wrap: anywhere;
+	}
+
+	.history-duration {
+		width: 100%;
+		max-width: 100%;
+
+		box-sizing: border-box;
+
+		padding-top: 10px;
+
+		border-top: 1px solid var(--tecspa-border);
+	}
+
+	.history-duration span,
+	.history-duration strong {
+		display: block;
+
+		overflow-wrap: anywhere;
+	}
+
+	.history-duration span {
+		font-size: 0.65rem;
+	}
+
+	.history-duration strong {
+		margin-top: 3px;
+
+		font-size: 0.9rem;
+	}
+
+	/* -----------------------------------------------------
+	   HISTORY NOTES
+	   ----------------------------------------------------- */
+
+	.history-note-editor {
+		width: 100%;
+		max-width: 100%;
+		min-width: 0;
+
+		box-sizing: border-box;
+
+		margin-top: 14px;
+	}
+
+	.history-note-editor textarea {
+		width: 100%;
+		max-width: 100%;
+
+		box-sizing: border-box;
+
+		min-height: 100px;
+	}
+
+	.history-note-actions {
+		width: 100%;
+		max-width: 100%;
+
+		display: flex;
+		flex-direction: column;
+
+		gap: 8px;
+
+		margin-top: 8px;
+	}
+
+	.history-note-actions button {
+		width: 100%;
+		min-height: 44px;
+
+		box-sizing: border-box;
+	}
+
+	/* -----------------------------------------------------
+	   HISTORY ACTIONS
+	   ----------------------------------------------------- */
+
+	.history-actions {
+		width: 100%;
+		max-width: 100%;
+
+		display: flex;
+		flex-direction: column;
+
+		gap: 8px;
+
+		margin-top: 12px;
+	}
+
+	.history-actions button,
+	.history-actions a {
+		width: 100%;
+		min-height: 44px;
+
+		box-sizing: border-box;
+
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	/* -----------------------------------------------------
+	   LONG TEXT SAFETY
+	   ----------------------------------------------------- */
+
+	.front-section *,
+	.history-section * {
+		min-width: 0;
+		max-width: 100%;
+	}
+
+	.front-section a,
+	.history-section a,
+	.front-section p,
+	.history-section p,
+	.front-section h2,
+	.front-section h3,
+	.history-section h2,
+	.history-section h3,
+	.history-section span {
+		overflow-wrap: anywhere;
+		word-break: break-word;
+	}
+}
+
+
+/* =========================================================
+   SMALL PHONE
+   ========================================================= */
+
+@media (max-width: 420px) {
+	.page-shell {
+		padding-left: 6px;
+		padding-right: 6px;
+	}
+
+	.page-header {
+		padding-left: 10px;
+		padding-right: 10px;
+	}
+
+	.page-header h1 {
+		font-size: clamp(2.05rem, 11vw, 3rem);
+	}
+
+	.front-section {
+		padding-left: 7px;
+		padding-right: 7px;
+	}
+
+	.fronter-card .avatar {
+		height: 185px;
+		flex-basis: 185px;
+	}
+
+	.member-row {
+		padding: 10px;
+	}
+
+	.history-entry {
+		gap: 9px;
+		padding: 11px;
+	}
+
+	.history-marker {
+		width: 40px;
+		height: 40px;
+
+		flex-basis: 40px;
+	}
+}
+
+
+/* =========================================================
+   VERY SMALL PHONE
+   ========================================================= */
+
+@media (max-width: 350px) {
+	.page-navigation {
+		gap: 3px;
+		padding: 4px;
+	}
+
+	.page-navigation a {
+		min-height: 46px;
+
+		padding-left: 3px;
+		padding-right: 3px;
+
+		font-size: 0.79rem;
+	}
+
+	.fronter-card .avatar {
+		height: 165px;
+		flex-basis: 165px;
+	}
+
+	.history-entry {
+		display: block;
+	}
+
+	.history-marker {
+		margin-bottom: 10px;
+	}
+}
+
 </style>

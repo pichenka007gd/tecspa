@@ -1071,4 +1071,614 @@ function previewText(
 				1rem;
 		}
 	}
+
+/* =========================================================
+   TECSPA JOURNAL — MOBILE REBUILD
+   ========================================================= */
+
+@media (max-width: 700px) {
+	/* -----------------------------------------------------
+	   PAGE FOUNDATION
+	   ----------------------------------------------------- */
+
+	.background {
+		width: 100%;
+		max-width: 100%;
+		min-width: 0;
+
+		box-sizing: border-box;
+
+		padding: 12px 6px 32px;
+
+		overflow-x: hidden;
+	}
+
+	.page {
+		width: 100%;
+		max-width: 100%;
+		min-width: 0;
+
+		box-sizing: border-box;
+
+		padding: 20px 13px 28px;
+
+		overflow: hidden;
+	}
+
+	.page > * {
+		max-width: 100%;
+		min-width: 0;
+		box-sizing: border-box;
+	}
+
+	/* -----------------------------------------------------
+	   TOP NAV
+	   ----------------------------------------------------- */
+
+	.top-navigation {
+		width: 100%;
+		max-width: 100%;
+
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+
+		gap: 4px;
+
+		box-sizing: border-box;
+
+		margin-bottom: 20px;
+		padding-bottom: 0;
+
+		border-bottom: 0;
+	}
+
+	.top-navigation a {
+		min-width: 0;
+		min-height: 44px;
+
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		box-sizing: border-box;
+
+		padding: 8px 5px;
+
+		border: 1px solid var(--tecspa-border);
+
+		background:
+			color-mix(
+				in srgb,
+				var(--tecspa-surface) 80%,
+				transparent
+			);
+
+		text-align: center;
+
+		font-size: 0.7rem;
+		line-height: 1.2;
+
+		overflow-wrap: anywhere;
+	}
+
+	/* -----------------------------------------------------
+	   HEADER
+	   ----------------------------------------------------- */
+
+	.top-decoration {
+		gap: 0.65rem;
+
+		margin-bottom: 12px;
+
+		font-size: 0.75rem;
+	}
+
+	.page-header {
+		width: 100%;
+		max-width: 100%;
+
+		box-sizing: border-box;
+
+		text-align: center;
+	}
+
+	.page-header h1 {
+		max-width: 100%;
+
+		font-size: clamp(2.2rem, 12vw, 3.5rem);
+		line-height: 0.98;
+
+		overflow-wrap: anywhere;
+		word-break: break-word;
+	}
+
+	.subtitle {
+		max-width: 100%;
+
+		margin-top: 10px;
+
+		font-size: 0.8rem;
+		line-height: 1.65;
+
+		overflow-wrap: anywhere;
+		word-break: break-word;
+	}
+
+	.header-actions {
+		width: 100%;
+		max-width: 100%;
+
+		margin-top: 15px;
+	}
+
+	.header-actions .primary-button {
+		width: 100%;
+		min-height: 46px;
+
+		box-sizing: border-box;
+	}
+
+	/* -----------------------------------------------------
+	   DIVIDER
+	   ----------------------------------------------------- */
+
+	.divider {
+		width: 100%;
+		max-width: 100%;
+
+		display: flex;
+
+		gap: 6px;
+
+		margin: 20px 0 15px;
+
+		overflow: hidden;
+	}
+
+	.divider span {
+		flex: 0 0 auto;
+	}
+
+	.divider span:nth-child(2),
+	.divider span:nth-child(4) {
+		flex: 1;
+		min-width: 0;
+
+		overflow: hidden;
+		white-space: nowrap;
+	}
+
+	/* -----------------------------------------------------
+	   FILTERS
+	   ----------------------------------------------------- */
+
+	.filters {
+		width: 100%;
+		max-width: 100%;
+
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+
+		gap: 5px;
+
+		box-sizing: border-box;
+
+		margin-bottom: 15px;
+	}
+
+	.filters button {
+		width: 100%;
+		min-height: 44px;
+
+		box-sizing: border-box;
+
+		padding: 8px 4px;
+
+		font-size: 0.7rem;
+
+		-webkit-tap-highlight-color: transparent;
+	}
+
+	/* -----------------------------------------------------
+	   ERROR
+	   ----------------------------------------------------- */
+
+	.error-message {
+		width: 100%;
+		max-width: 100%;
+
+		box-sizing: border-box;
+
+		padding: 11px 12px;
+
+		font-size: 0.78rem;
+		line-height: 1.5;
+
+		overflow-wrap: anywhere;
+		word-break: break-word;
+	}
+
+	/* -----------------------------------------------------
+	   ENTRY LIST
+	   ----------------------------------------------------- */
+
+	.entry-list {
+		width: 100%;
+		max-width: 100%;
+		min-width: 0;
+
+		display: flex;
+		flex-direction: column;
+
+		gap: 12px;
+
+		box-sizing: border-box;
+	}
+
+	/* -----------------------------------------------------
+	   ENTRY CARD
+	   ----------------------------------------------------- */
+
+	.entry-card {
+		width: 100%;
+		max-width: 100%;
+		min-width: 0;
+
+		box-sizing: border-box;
+
+		padding: 16px 14px;
+
+		overflow: hidden;
+	}
+
+	.entry-card-top {
+		width: 100%;
+		max-width: 100%;
+		min-width: 0;
+
+		display: flex;
+		align-items: flex-start;
+		justify-content: space-between;
+
+		gap: 10px;
+
+		box-sizing: border-box;
+	}
+
+	.entry-card-top > div:first-child {
+		min-width: 0;
+		max-width: 100%;
+	}
+
+	/* -----------------------------------------------------
+	   ENTRY META
+	   ----------------------------------------------------- */
+
+	.entry-meta {
+		width: 100%;
+		max-width: 100%;
+		min-width: 0;
+
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+
+		gap: 4px 6px;
+
+		font-size: 0.62rem;
+		line-height: 1.45;
+
+		overflow-wrap: anywhere;
+	}
+
+	.entry-meta > span {
+		max-width: 100%;
+
+		overflow-wrap: anywhere;
+		word-break: break-word;
+	}
+
+	.entry-type {
+		font-weight: 800;
+	}
+
+	/* -----------------------------------------------------
+	   ENTRY TITLE
+	   ----------------------------------------------------- */
+
+	.entry-card h2 {
+		width: 100%;
+		max-width: 100%;
+
+		margin: 7px 0 0;
+
+		font-size: clamp(1.45rem, 8vw, 2.15rem);
+		line-height: 1.05;
+
+		overflow-wrap: anywhere;
+		word-break: break-word;
+	}
+
+	.entry-card h2 a {
+		max-width: 100%;
+
+		color: inherit;
+		text-decoration: none;
+
+		overflow-wrap: anywhere;
+		word-break: break-word;
+	}
+
+	.entry-card h2 a:hover {
+		color: var(--tecspa-accent);
+	}
+
+	/* -----------------------------------------------------
+	   PIN
+	   ----------------------------------------------------- */
+
+	.pin-button {
+		width: 42px;
+		height: 42px;
+
+		flex: 0 0 42px;
+
+		box-sizing: border-box;
+
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		padding: 0;
+
+		border: 1px solid var(--tecspa-border);
+		border-radius: 50%;
+
+		background: var(--tecspa-surface);
+
+		color: var(--tecspa-text-muted);
+
+		font-size: 1rem;
+
+		cursor: pointer;
+	}
+
+	.pin-button.pinned {
+		border-color: var(--tecspa-accent);
+
+		color: var(--tecspa-accent);
+
+		background:
+			color-mix(
+				in srgb,
+				var(--tecspa-accent) 10%,
+				var(--tecspa-surface)
+			);
+	}
+
+	/* -----------------------------------------------------
+	   TAGS
+	   ----------------------------------------------------- */
+
+	.tags {
+		width: 100%;
+		max-width: 100%;
+		min-width: 0;
+
+		display: flex;
+		flex-wrap: wrap;
+
+		gap: 5px;
+
+		margin-top: 11px;
+	}
+
+	.tags span {
+		max-width: 100%;
+
+		padding: 4px 7px;
+
+		border: 1px solid var(--tecspa-border);
+		border-radius: 999px;
+
+		color: var(--tecspa-text-muted);
+
+		font-size: 0.6rem;
+		line-height: 1.3;
+
+		overflow-wrap: anywhere;
+	}
+
+	/* -----------------------------------------------------
+	   PREVIEW
+	   ----------------------------------------------------- */
+
+	.entry-preview {
+		width: 100%;
+		max-width: 100%;
+
+		margin: 13px 0 0;
+
+		color: var(--tecspa-text-muted);
+
+		font-size: 0.8rem;
+		line-height: 1.65;
+
+		overflow-wrap: anywhere;
+		word-break: break-word;
+
+		white-space: normal;
+	}
+
+	/* -----------------------------------------------------
+	   READ LINK
+	   ----------------------------------------------------- */
+
+	.read-link {
+		display: inline-flex;
+		align-items: center;
+
+		min-height: 42px;
+
+		margin-top: 12px;
+
+		padding: 7px 0;
+
+		color: var(--tecspa-accent-dark);
+
+		font-size: 0.72rem;
+		font-weight: 800;
+
+		text-decoration: none;
+	}
+
+	.read-link:hover {
+		color: var(--tecspa-accent);
+	}
+
+	/* -----------------------------------------------------
+	   EMPTY STATE
+	   ----------------------------------------------------- */
+
+	.empty-state {
+		width: 100%;
+		max-width: 100%;
+		min-width: 0;
+
+		box-sizing: border-box;
+
+		padding: 34px 16px;
+
+		text-align: center;
+
+		overflow: hidden;
+	}
+
+	.empty-state h2 {
+		max-width: 100%;
+
+		font-size: 1.65rem;
+		line-height: 1.1;
+
+		overflow-wrap: anywhere;
+		word-break: break-word;
+	}
+
+	.empty-state p {
+		max-width: 100%;
+
+		font-size: 0.8rem;
+		line-height: 1.6;
+
+		overflow-wrap: anywhere;
+		word-break: break-word;
+	}
+
+	.empty-state .secondary-button {
+		width: 100%;
+		min-height: 46px;
+
+		box-sizing: border-box;
+
+		margin-top: 12px;
+	}
+
+	.empty-symbol {
+		font-size: 2.5rem;
+	}
+
+	/* -----------------------------------------------------
+	   HARD OVERFLOW SAFETY
+	   ----------------------------------------------------- */
+
+	.background *,
+	.background *::before,
+	.background *::after {
+		min-width: 0;
+		max-width: 100%;
+	}
+
+	.background img,
+	.background textarea,
+	.background input,
+	.background button {
+		max-width: 100%;
+	}
+}
+
+
+/* =========================================================
+   SMALL PHONE
+   ========================================================= */
+
+@media (max-width: 420px) {
+	.background {
+		padding-left: 4px;
+		padding-right: 4px;
+	}
+
+	.page {
+		padding-left: 10px;
+		padding-right: 10px;
+	}
+
+	.entry-card {
+		padding: 14px 12px;
+	}
+
+	.entry-card h2 {
+		font-size: clamp(1.35rem, 8.5vw, 1.9rem);
+	}
+
+	.entry-preview {
+		font-size: 0.77rem;
+	}
+
+	.pin-button {
+		width: 40px;
+		height: 40px;
+
+		flex-basis: 40px;
+	}
+}
+
+
+/* =========================================================
+   VERY SMALL PHONE
+   ========================================================= */
+
+@media (max-width: 350px) {
+	.page {
+		padding-left: 8px;
+		padding-right: 8px;
+	}
+
+	.top-navigation a {
+		font-size: 0.65rem;
+	}
+
+	.filters {
+		gap: 3px;
+	}
+
+	.filters button {
+		font-size: 0.65rem;
+	}
+
+	.entry-card {
+		padding: 12px 10px;
+	}
+
+	.entry-card-top {
+		gap: 7px;
+	}
+
+	.pin-button {
+		width: 38px;
+		height: 38px;
+
+		flex-basis: 38px;
+	}
+}
+
 </style>
