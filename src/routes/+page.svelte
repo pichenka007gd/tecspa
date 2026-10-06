@@ -4305,4 +4305,680 @@ max-width: 100%;
 	}
 }
 
+/* =========================================================
+   TECSPA HOMEPAGE — MOBILE REBUILD
+   ========================================================= */
+
+@media (max-width: 700px) {
+	/* -----------------------------------------------------
+	   GLOBAL PAGE CONSTRAINTS
+	   ----------------------------------------------------- */
+
+	.background {
+		width: 100%;
+		min-width: 0;
+		max-width: 100%;
+		box-sizing: border-box;
+
+		padding: 10px 6px 36px;
+
+		overflow-x: hidden;
+	}
+
+	.page {
+		width: 100%;
+		max-width: 100%;
+		min-width: 0;
+
+		box-sizing: border-box;
+
+		margin: 6px 0 0;
+		padding: 14px 14px 34px;
+
+		overflow: hidden;
+	}
+
+	.page::before {
+		inset: 6px;
+	}
+
+	/* Make sure no page section can create horizontal
+	   overflow through an image, grid, or long text. */
+
+	.page > *,
+	.page section,
+	.page nav,
+	.page footer {
+		max-width: 100%;
+		min-width: 0;
+		box-sizing: border-box;
+	}
+
+	/* -----------------------------------------------------
+	   NAVIGATION
+	   ----------------------------------------------------- */
+
+	.top-navigation {
+		width: 100%;
+		max-width: 100%;
+
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+
+		gap: 4px;
+
+		margin-bottom: 16px;
+		padding: 5px;
+
+		box-sizing: border-box;
+	}
+
+	.top-nav-link {
+		width: 100%;
+		min-width: 0;
+		min-height: 44px;
+
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		box-sizing: border-box;
+
+		padding: 8px 5px;
+
+		font-size: 0.88rem;
+		line-height: 1.1;
+
+		text-align: center;
+
+		white-space: normal;
+		overflow-wrap: anywhere;
+	}
+
+	.top-nav-link span {
+		flex: 0 0 auto;
+		font-size: 0.8rem;
+	}
+
+	/* -----------------------------------------------------
+	   ORNAMENTAL HEADER
+	   ----------------------------------------------------- */
+
+	.ornamental-header {
+		width: 100%;
+		max-width: 100%;
+
+		gap: 7px;
+
+		margin: 3px 0 8px;
+
+		overflow: hidden;
+	}
+
+	.ornamental-header > span:first-child,
+	.ornamental-header > span:last-child {
+		margin: 0;
+		flex: 0 0 auto;
+	}
+
+	.ornamental-line {
+		min-width: 0;
+	}
+
+	/* -----------------------------------------------------
+	   HERO
+	   ----------------------------------------------------- */
+
+	.hero {
+		width: 100%;
+		max-width: 100%;
+		min-width: 0;
+
+		box-sizing: border-box;
+
+		margin: 10px 0 16px;
+		padding: 34px 18px 30px;
+
+		overflow: hidden;
+	}
+
+	.hero-inner {
+		width: 100%;
+		max-width: 100%;
+		min-width: 0;
+	}
+
+	.hero-corner {
+		font-size: 2rem;
+	}
+
+	.hero-corner-left {
+		top: 8px;
+		left: 10px;
+	}
+
+	.hero-corner-right {
+		right: 10px;
+		bottom: 8px;
+	}
+
+	.hero-kicker {
+		max-width: 100%;
+
+		font-size: 0.62rem;
+		letter-spacing: 0.16em;
+		line-height: 1.5;
+	}
+
+	h1 {
+		max-width: 100%;
+
+		font-size: clamp(2.8rem, 15vw, 4.6rem);
+		line-height: 0.95;
+
+		overflow-wrap: anywhere;
+		word-break: break-word;
+	}
+
+	.hero-divider {
+		width: 100%;
+		max-width: 280px;
+
+		gap: 7px;
+		margin-top: 17px;
+	}
+
+	.hero-divider span:nth-child(2) {
+		min-width: 0;
+	}
+
+	.tagline {
+		max-width: 100%;
+
+		font-size: 0.82rem;
+		line-height: 1.5;
+
+		overflow-wrap: anywhere;
+	}
+
+	.hero-note {
+		max-width: 100%;
+
+		margin-top: 16px;
+
+		font-size: 0.72rem;
+		line-height: 1.7;
+
+		overflow-wrap: anywhere;
+	}
+
+	/* -----------------------------------------------------
+	   THEME ART
+	   ----------------------------------------------------- */
+
+	.theme-art-strip {
+		width: 100%;
+		max-width: 100%;
+
+		box-sizing: border-box;
+
+		overflow: hidden;
+	}
+
+	.theme-art-world {
+		width: 100%;
+		max-width: 100%;
+		min-width: 0;
+
+		box-sizing: border-box;
+
+		overflow: hidden;
+	}
+
+	.theme-art-world img {
+		max-width: 100%;
+	}
+
+	/* -----------------------------------------------------
+	   STATUS STRIP
+	   ----------------------------------------------------- */
+
+	.status-strip {
+		width: 100%;
+		max-width: 100%;
+
+		box-sizing: border-box;
+
+		display: flex;
+		flex-wrap: wrap;
+
+		gap: 7px;
+
+		margin: 14px auto 22px;
+
+		font-size: 0.64rem;
+		line-height: 1.4;
+
+		text-align: center;
+	}
+
+	.status-strip > div {
+		min-width: 0;
+		max-width: 100%;
+
+		justify-content: center;
+	}
+
+	.status-divider {
+		flex: 0 0 auto;
+	}
+
+	/* -----------------------------------------------------
+	   SYSTEM INTRO
+	   ----------------------------------------------------- */
+
+	.intro {
+		width: 100%;
+		max-width: 100%;
+		min-width: 0;
+
+		display: flex;
+		flex-direction: column;
+
+		gap: 22px;
+
+		align-items: stretch;
+
+		box-sizing: border-box;
+
+		margin: 0 auto;
+	}
+
+	.intro-decoration {
+		width: 100%;
+		max-width: 100%;
+
+		box-sizing: border-box;
+
+		text-align: center;
+	}
+
+	.portrait-frame {
+		max-width: 100%;
+	}
+
+	.portrait {
+		max-width: 100%;
+	}
+
+	.intro-text {
+		width: 100%;
+		max-width: 100%;
+		min-width: 0;
+
+		box-sizing: border-box;
+
+		text-align: center;
+	}
+
+	.intro-text h2 {
+		max-width: 100%;
+
+		font-size: clamp(2rem, 10vw, 3rem);
+		line-height: 1.05;
+
+		overflow-wrap: anywhere;
+		word-break: break-word;
+	}
+
+	.intro-copy {
+		max-width: 100%;
+
+		font-size: 0.86rem;
+		line-height: 1.75;
+
+		overflow-wrap: anywhere;
+		word-break: break-word;
+	}
+
+	.intro-whisper {
+		max-width: 100%;
+
+		font-size: 0.78rem;
+		line-height: 1.6;
+
+		overflow-wrap: anywhere;
+		word-break: break-word;
+	}
+
+	.identity {
+		width: 100%;
+		max-width: 100%;
+
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+
+		gap: 7px 14px;
+	}
+
+	.identity span {
+		max-width: 100%;
+
+		overflow-wrap: anywhere;
+	}
+
+	/* -----------------------------------------------------
+	   MAJOR DIVIDERS
+	   ----------------------------------------------------- */
+
+	.major-divider {
+		width: 100%;
+		max-width: 100%;
+
+		box-sizing: border-box;
+
+		gap: 8px;
+
+		margin: 26px 0;
+	}
+
+	.major-divider span {
+		min-width: 0;
+	}
+
+	/* -----------------------------------------------------
+	   EXPLORE / QUICK LINKS
+	   ----------------------------------------------------- */
+
+	.links-section {
+		width: 100%;
+		max-width: 100%;
+		min-width: 0;
+
+		box-sizing: border-box;
+	}
+
+	.section-heading {
+		width: 100%;
+		max-width: 100%;
+		min-width: 0;
+
+		text-align: center;
+	}
+
+	.section-heading h2 {
+		max-width: 100%;
+
+		font-size: clamp(2.2rem, 11vw, 3.3rem);
+		line-height: 1;
+
+		overflow-wrap: anywhere;
+		word-break: break-word;
+	}
+
+	.section-description {
+		max-width: 100%;
+
+		font-size: 0.8rem;
+		line-height: 1.55;
+
+		overflow-wrap: anywhere;
+		word-break: break-word;
+	}
+
+	/* THIS is the important fix:
+	   desktop cards are no longer allowed to stay
+	   in a 3-column layout on a phone. */
+
+	.link-grid {
+		width: 100%;
+		max-width: 100%;
+		min-width: 0;
+
+		display: grid;
+		grid-template-columns: 1fr;
+
+		gap: 12px;
+
+		box-sizing: border-box;
+
+		margin-top: 20px;
+	}
+
+	.link-card {
+		width: 100%;
+		max-width: 100%;
+		min-width: 0;
+
+		min-height: 190px;
+
+		box-sizing: border-box;
+
+		display: flex;
+		flex-direction: column;
+
+		padding: 18px 17px;
+
+		overflow: hidden;
+	}
+
+	.card-top {
+		width: 100%;
+		max-width: 100%;
+
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+
+		min-width: 0;
+	}
+
+	.card-symbol,
+	.card-number {
+		flex: 0 0 auto;
+	}
+
+	.card-content {
+		width: 100%;
+		max-width: 100%;
+		min-width: 0;
+
+		margin-top: auto;
+		padding-top: 18px;
+	}
+
+	.card-content strong {
+		display: block;
+
+		max-width: 100%;
+
+		font-size: clamp(1.8rem, 9vw, 2.7rem);
+		line-height: 1;
+
+		overflow-wrap: anywhere;
+		word-break: break-word;
+	}
+
+	.card-content small {
+		display: block;
+
+		max-width: 100%;
+
+		margin-top: 9px;
+
+		font-size: 0.8rem;
+		line-height: 1.5;
+
+		overflow-wrap: anywhere;
+		word-break: break-word;
+	}
+
+	.card-arrow {
+		align-self: flex-end;
+
+		margin-top: 16px;
+	}
+
+	/* -----------------------------------------------------
+	   QUOTE
+	   ----------------------------------------------------- */
+
+	.quote-section {
+		width: 100%;
+		max-width: 100%;
+		min-width: 0;
+
+		box-sizing: border-box;
+
+		padding: 24px 12px;
+
+		text-align: center;
+
+		overflow: hidden;
+	}
+
+	.quote-section p {
+		max-width: 100%;
+
+		font-size: 1.05rem;
+		line-height: 1.7;
+
+		overflow-wrap: anywhere;
+		word-break: break-word;
+	}
+
+	.quote-mark {
+		font-size: 2.5rem;
+	}
+
+	/* -----------------------------------------------------
+	   FOOTER
+	   ----------------------------------------------------- */
+
+	footer {
+		width: 100%;
+		max-width: 100%;
+		min-width: 0;
+
+		box-sizing: border-box;
+
+		padding-top: 10px;
+
+		text-align: center;
+
+		overflow-wrap: anywhere;
+		word-break: break-word;
+	}
+
+	.footer-ornament {
+		width: 100%;
+		max-width: 100%;
+
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		gap: 7px;
+
+		overflow: hidden;
+	}
+
+	.footer-ornament span:nth-child(2),
+	.footer-ornament span:nth-child(4) {
+		flex: 1;
+		min-width: 0;
+
+		overflow: hidden;
+	}
+
+	/* -----------------------------------------------------
+	   FLOATING DECORATIONS
+	   ----------------------------------------------------- */
+
+	.floating-decoration {
+		pointer-events: none;
+	}
+
+	.decoration-one,
+	.decoration-two,
+	.decoration-three,
+	.decoration-four {
+		max-width: 20vw;
+
+		overflow: hidden;
+	}
+}
+
+
+/* =========================================================
+   SMALL PHONE
+   ========================================================= */
+
+@media (max-width: 420px) {
+	.background {
+		padding-left: 4px;
+		padding-right: 4px;
+	}
+
+	.page {
+		padding-left: 11px;
+		padding-right: 11px;
+	}
+
+	.hero {
+		padding-left: 14px;
+		padding-right: 14px;
+	}
+
+	.hero-kicker {
+		font-size: 0.58rem;
+	}
+
+	.hero-note {
+		font-size: 0.68rem;
+	}
+
+	.link-card {
+		min-height: 175px;
+		padding: 16px 14px;
+	}
+
+	.card-content strong {
+		font-size: clamp(1.7rem, 10vw, 2.3rem);
+	}
+
+	.card-content small {
+		font-size: 0.76rem;
+	}
+}
+
+
+/* =========================================================
+   VERY SMALL PHONE
+   ========================================================= */
+
+@media (max-width: 350px) {
+	.page {
+		padding-left: 9px;
+		padding-right: 9px;
+	}
+
+	.top-nav-link {
+		font-size: 0.82rem;
+	}
+
+	.hero {
+		padding: 28px 11px 25px;
+	}
+
+	.link-card {
+		min-height: 160px;
+	}
+
+	.card-content strong {
+		font-size: 1.7rem;
+	}
+}
+
 </style>
