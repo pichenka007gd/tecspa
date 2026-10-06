@@ -1,7 +1,9 @@
 import { error, json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
+import type { Cookies } from '@sveltejs/kit';
 
 import { pool } from '$lib/server/db/postgres';
+import { getAuthenticatedSystem } from '$lib/server/system';
 
 type JournalEntryRow = {
 	id: string;
@@ -41,9 +43,7 @@ function parseTags(value: unknown): string[] {
 	return [];
 }
 
-function mapJournalEntryRow(
-	row: JournalEntryRow
-) {
+function mapJournalEntryRow(row: JournalEntryRow) {
 	return {
 		id: row.id,
 		authorMemberId: row.author_member_id,
@@ -61,7 +61,8 @@ function mapJournalEntryRow(
 }
 
 export const GET: RequestHandler = async ({
-	params
+	params,
+	cookies
 }) => {
 	const { id } = params;
 
@@ -71,6 +72,8 @@ export const GET: RequestHandler = async ({
 			'Journal entry ID is required.'
 		);
 	}
+
+	const { system } = await getAuthenticatedSystem(cookies);
 
 	const result = await pool.query<JournalEntryRow>(
 		`
@@ -86,8 +89,9 @@ export const GET: RequestHandler = async ({
 				updated_at
 			FROM journal_entries
 			WHERE id = $1
+				AND system_id = $2
 		`,
-		[id]
+		[id, system.id]
 	);
 
 	if (result.rows.length === 0) {
@@ -104,6 +108,7 @@ export const GET: RequestHandler = async ({
 
 export const PATCH: RequestHandler = async ({
 	params,
+	cookies,
 	request
 }) => {
 	const { id } = params;
@@ -115,12 +120,34 @@ export const PATCH: RequestHandler = async ({
 		);
 	}
 
+	const { system } = await getAuthenticatedSystem(cookies);
+
 	const body = await request.json();
 
 	const authorMemberId =
 		typeof body.authorMemberId === 'string'
 			? body.authorMemberId
 			: null;
+
+	if (authorMemberId) {
+		const memberResult = await pool.query(
+			`
+				SELECT id
+				FROM members
+				WHERE id = $1
+					AND system_id = $2
+				LIMIT 1
+			`,
+			[authorMemberId, system.id]
+		);
+
+		if (memberResult.rows.length === 0) {
+			throw error(
+				400,
+				'Author member does not belong to your TECSPA system.'
+			);
+		}
+	}
 
 	const entryType =
 		body.entryType === 'note'
@@ -164,6 +191,7 @@ export const PATCH: RequestHandler = async ({
 				is_pinned = $6,
 				updated_at = $7
 			WHERE id = $8
+				AND system_id = $9
 			RETURNING
 				id,
 				author_member_id,
@@ -183,7 +211,8 @@ export const PATCH: RequestHandler = async ({
 			JSON.stringify(tags),
 			isPinned,
 			updatedAt,
-			id
+			id,
+			system.id
 		]
 	);
 
@@ -199,25 +228,39 @@ export const PATCH: RequestHandler = async ({
 	);
 };
 
-export const DELETE: RequestHandler = async ({ params }) => {
+export const DELETE: RequestHandler = async ({
+	params,
+	cookies
+}) => {
 	const { id } = params;
 
 	if (!id) {
-		throw error(400, 'Journal entry ID is required.');
+		throw error(
+			400,
+			'Journal entry ID is required.'
+		);
 	}
+
+	const { system } = await getAuthenticatedSystem(cookies);
 
 	const result = await pool.query(
 		`
 			DELETE FROM journal_entries
 			WHERE id = $1
+				AND system_id = $2
 			RETURNING id
 		`,
-		[id]
+		[id, system.id]
 	);
 
 	if (result.rows.length === 0) {
-		throw error(404, 'Journal entry not found.');
+		throw error(
+			404,
+			'Journal entry not found.'
+		);
 	}
 
-	return new Response(null, { status: 204 });
+	return new Response(null, {
+		status: 204
+	});
 };

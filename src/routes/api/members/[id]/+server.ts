@@ -2,11 +2,17 @@ import { json } from '@sveltejs/kit';
 import type { RequestHandler } from '@sveltejs/kit';
 
 import { pool } from '$lib/server/db/postgres';
+import { getAuthenticatedSystem } from '$lib/server/system';
 
-export const GET: RequestHandler = async ({ params }) => {
+export const GET: RequestHandler = async ({
+	params,
+	cookies
+}) => {
 	const memberId = params.id;
 
 	try {
+		const { system } = await getAuthenticatedSystem(cookies);
+
 		const memberResult = await pool.query(
 			`
 				SELECT
@@ -24,9 +30,10 @@ export const GET: RequestHandler = async ({ params }) => {
 					is_fronting
 				FROM members
 				WHERE id = $1
+					AND system_id = $2
 				LIMIT 1;
 			`,
-			[memberId]
+			[memberId, system.id]
 		);
 
 		if (memberResult.rows.length === 0) {
@@ -52,9 +59,10 @@ export const GET: RequestHandler = async ({ params }) => {
 					sort_order
 				FROM custom_fields
 				WHERE member_id = $1
+					AND system_id = $2
 				ORDER BY sort_order;
 			`,
-			[memberId]
+			[memberId, system.id]
 		);
 
 		return json({
@@ -83,6 +91,15 @@ export const GET: RequestHandler = async ({ params }) => {
 	} catch (error) {
 		console.error('Failed to load member:', error);
 
+		if (
+			error &&
+			typeof error === 'object' &&
+			'status' in error &&
+			typeof error.status === 'number'
+		) {
+			throw error;
+		}
+
 		return json(
 			{
 				error: 'Failed to load member.'
@@ -90,4 +107,4 @@ export const GET: RequestHandler = async ({ params }) => {
 			{ status: 500 }
 		);
 	}
-}
+};

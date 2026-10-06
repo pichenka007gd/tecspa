@@ -1,7 +1,10 @@
 import { error, json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
+import type { Cookies } from '@sveltejs/kit';
 
 import { pool } from '$lib/server/db/postgres';
+import { getAuthenticatedSystem } from '$lib/server/system';
+
 type JournalEntryRow = {
 	id: string;
 	author_member_id: string | null;
@@ -40,9 +43,7 @@ function parseTags(value: unknown): string[] {
 	return [];
 }
 
-function mapJournalEntryRow(
-	row: JournalEntryRow
-) {
+function mapJournalEntryRow(row: JournalEntryRow) {
 	return {
 		id: row.id,
 		authorMemberId: row.author_member_id,
@@ -59,7 +60,13 @@ function mapJournalEntryRow(
 	};
 }
 
-export async function GET() {
+export async function GET({
+	cookies
+}: {
+	cookies: Cookies;
+}) {
+	const { system } = await getAuthenticatedSystem(cookies);
+
 	const result = await pool.query<JournalEntryRow>(
 		`
 			SELECT
@@ -73,10 +80,12 @@ export async function GET() {
 				created_at,
 				updated_at
 			FROM journal_entries
+			WHERE system_id = $1
 			ORDER BY
 				is_pinned DESC,
 				created_at DESC
-		`
+		`,
+		[system.id]
 	);
 
 	return json(
@@ -85,14 +94,37 @@ export async function GET() {
 }
 
 export const POST: RequestHandler = async ({
+	cookies,
 	request
 }) => {
+	const { system } = await getAuthenticatedSystem(cookies);
+
 	const body = await request.json();
 
 	const authorMemberId =
 		typeof body.authorMemberId === 'string'
 			? body.authorMemberId
 			: null;
+
+	if (authorMemberId) {
+		const memberResult = await pool.query(
+			`
+				SELECT id
+				FROM members
+				WHERE id = $1
+					AND system_id = $2
+				LIMIT 1
+			`,
+			[authorMemberId, system.id]
+		);
+
+		if (memberResult.rows.length === 0) {
+			throw error(
+				400,
+				'Author member does not belong to your TECSPA system.'
+			);
+		}
+	}
 
 	const entryType =
 		body.entryType === 'note'
@@ -128,6 +160,7 @@ export const POST: RequestHandler = async ({
 		`
 			INSERT INTO journal_entries (
 				id,
+				system_id,
 				author_member_id,
 				entry_type,
 				title,
@@ -146,7 +179,8 @@ export const POST: RequestHandler = async ({
 				$6,
 				$7,
 				$8,
-				$9
+				$9,
+				$10
 			)
 			RETURNING
 				id,
@@ -161,6 +195,7 @@ export const POST: RequestHandler = async ({
 		`,
 		[
 			id,
+			system.id,
 			authorMemberId,
 			entryType,
 			title,

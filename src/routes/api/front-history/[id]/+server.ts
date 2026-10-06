@@ -2,15 +2,24 @@ import { error, json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 
 import { pool } from '$lib/server/db/postgres';
+import { getAuthenticatedSystem } from '$lib/server/system';
 
-export const PATCH: RequestHandler = async ({ params, request }) => {
+export const PATCH: RequestHandler = async ({
+	params,
+	request,
+	cookies
+}) => {
 	const { id } = params;
 
 	if (!id) {
-		throw error(400, 'Front history entry ID is required.');
+		throw error(
+			400,
+			'Front history entry ID is required.'
+		);
 	}
 
 	const body = await request.json();
+
 	const note =
 		typeof body.note === 'string'
 			? body.note.trim()
@@ -20,11 +29,14 @@ export const PATCH: RequestHandler = async ({ params, request }) => {
 		throw error(400, 'A note string is required.');
 	}
 
+	const { system } = await getAuthenticatedSystem(cookies);
+
 	const result = await pool.query(
 		`
 			UPDATE front_history
 			SET note = $1
 			WHERE id = $2
+				AND system_id = $3
 			RETURNING
 				id,
 				member_id,
@@ -32,11 +44,14 @@ export const PATCH: RequestHandler = async ({ params, request }) => {
 				ended_at,
 				note
 		`,
-		[note, id]
+		[note, id, system.id]
 	);
 
 	if (result.rows.length === 0) {
-		throw error(404, 'Front history entry not found.');
+		throw error(
+			404,
+			'Front history entry not found.'
+		);
 	}
 
 	return json({
@@ -48,24 +63,36 @@ export const PATCH: RequestHandler = async ({ params, request }) => {
 	});
 };
 
-export const DELETE: RequestHandler = async ({ params }) => {
+export const DELETE: RequestHandler = async ({
+	params,
+	cookies
+}) => {
 	const { id } = params;
 
 	if (!id) {
-		throw error(400, 'Front history entry ID is required.');
+		throw error(
+			400,
+			'Front history entry ID is required.'
+		);
 	}
+
+	const { system } = await getAuthenticatedSystem(cookies);
 
 	const result = await pool.query(
 		`
 			DELETE FROM front_history
 			WHERE id = $1
+				AND system_id = $2
 			RETURNING id
 		`,
-		[id]
+		[id, system.id]
 	);
 
 	if (result.rows.length === 0) {
-		throw error(404, 'Front history entry not found.');
+		throw error(
+			404,
+			'Front history entry not found.'
+		);
 	}
 
 	return new Response(null, {

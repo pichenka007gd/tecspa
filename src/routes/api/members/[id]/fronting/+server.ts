@@ -1,14 +1,16 @@
-import { json } from '@sveltejs/kit';
-import { error } from '@sveltejs/kit';
+import { json, error } from '@sveltejs/kit';
 
 import { pool } from '$lib/server/db/postgres';
+import { getAuthenticatedSystem } from '$lib/server/system';
 
 export async function PUT({
 	params,
-	request
+	request,
+	cookies
 }: {
 	params: { id: string };
 	request: Request;
+	cookies: import('@sveltejs/kit').Cookies;
 }) {
 	const { id } = params;
 
@@ -25,6 +27,8 @@ export async function PUT({
 		);
 	}
 
+	const { system } = await getAuthenticatedSystem(cookies);
+
 	const client = await pool.connect();
 
 	try {
@@ -37,9 +41,10 @@ export async function PUT({
 				SELECT is_fronting
 				FROM members
 				WHERE id = $1
+					AND system_id = $2
 				FOR UPDATE
 			`,
-			[id]
+			[id, system.id]
 		);
 
 		if (memberResult.rows.length === 0) {
@@ -62,8 +67,13 @@ export async function PUT({
 				UPDATE members
 				SET is_fronting = $1
 				WHERE id = $2
+					AND system_id = $3
 			`,
-			[body.isFronting ? 1 : 0, id]
+			[
+				body.isFronting ? 1 : 0,
+				id,
+				system.id
+			]
 		);
 
 		const now = new Date().toISOString();
@@ -74,6 +84,7 @@ export async function PUT({
 					INSERT INTO front_history (
 						id,
 						member_id,
+						system_id,
 						started_at,
 						ended_at,
 						note
@@ -82,6 +93,7 @@ export async function PUT({
 						$1,
 						$2,
 						$3,
+						$4,
 						NULL,
 						''
 					)
@@ -89,6 +101,7 @@ export async function PUT({
 				[
 					crypto.randomUUID(),
 					id,
+					system.id,
 					now
 				]
 			);
@@ -101,12 +114,17 @@ export async function PUT({
 						SELECT id
 						FROM front_history
 						WHERE member_id = $2
+							AND system_id = $3
 							AND ended_at IS NULL
 						ORDER BY started_at DESC
 						LIMIT 1
 					)
 				`,
-				[now, id]
+				[
+					now,
+					id,
+					system.id
+				]
 			);
 		}
 

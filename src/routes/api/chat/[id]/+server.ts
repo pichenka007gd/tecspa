@@ -2,6 +2,7 @@ import { error, json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 
 import { pool } from '$lib/server/db/postgres';
+import { getAuthenticatedSystem } from '$lib/server/system';
 
 type ChatMessageRow = {
 	id: string;
@@ -25,8 +26,12 @@ function mapChatMessageRow(
 
 export const PATCH: RequestHandler = async ({
 	request,
-	params
+	params,
+	cookies
 }) => {
+	const { system } =
+		await getAuthenticatedSystem(cookies);
+
 	const body = await request.json();
 
 	const message =
@@ -52,6 +57,7 @@ export const PATCH: RequestHandler = async ({
 				message = $1,
 				edited_at = $2
 			WHERE id = $3
+			  AND system_id = $4
 			RETURNING
 				id,
 				sender_member_id,
@@ -62,7 +68,8 @@ export const PATCH: RequestHandler = async ({
 		[
 			message,
 			editedAt,
-			params.id
+			params.id,
+			system.id
 		]
 	);
 
@@ -81,14 +88,22 @@ export const PATCH: RequestHandler = async ({
 };
 
 export const DELETE: RequestHandler = async ({
-	params
+	params,
+	cookies
 }) => {
+	const { system } =
+		await getAuthenticatedSystem(cookies);
+
 	const result = await pool.query(
 		`
 			DELETE FROM chat_messages
 			WHERE id = $1
+			  AND system_id = $2
 		`,
-		[params.id]
+		[
+			params.id,
+			system.id
+		]
 	);
 
 	if (result.rowCount === 0) {

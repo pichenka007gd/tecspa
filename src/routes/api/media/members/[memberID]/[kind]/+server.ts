@@ -1,5 +1,6 @@
 import { error } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
+import type { Cookies } from '@sveltejs/kit';
 
 import { GetObjectCommand } from '@aws-sdk/client-s3';
 
@@ -9,29 +10,49 @@ import {
 	s3
 } from '$lib/server/storage/s3';
 
+import { getAuthenticatedSystem } from '$lib/server/system';
+
 type MediaKind = 'avatar' | 'banner';
 
 function isMediaKind(value: string): value is MediaKind {
 	return value === 'avatar' || value === 'banner';
 }
 
-export const GET: RequestHandler = async ({ params }) => {
+export const GET: RequestHandler = async ({
+	params,
+	cookies
+}: {
+	params: {
+		memberID?: string;
+		kind?: string;
+	};
+	cookies: Cookies;
+}) => {
 	const { memberID, kind } = params;
 
 	if (!memberID || !kind || !isMediaKind(kind)) {
 		throw error(400, 'Invalid member media request.');
 	}
 
+	const { system } =
+		await getAuthenticatedSystem(cookies);
+
 	const result = await pool.query<{
 		avatar: string;
 		banner: string;
 	}>(
 		`
-			SELECT avatar, banner
+			SELECT
+				avatar,
+				banner
 			FROM members
 			WHERE id = $1
+				AND system_id = $2
 		`,
-		[memberID]
+		[
+			memberID,
+			system.id
+		]
 	);
 
 	if (result.rows.length === 0) {
@@ -41,14 +62,20 @@ export const GET: RequestHandler = async ({ params }) => {
 	const storedPath = result.rows[0][kind];
 
 	if (!storedPath) {
-		throw error(404, 'Member does not have this image.');
+		throw error(
+			404,
+			'Member does not have this image.'
+		);
 	}
 
 	const expectedPrefix =
 		`members/${memberID}/${kind}.`;
 
 	if (!storedPath.startsWith(expectedPrefix)) {
-		throw error(404, 'Member media was not found.');
+		throw error(
+			404,
+			'Member media was not found.'
+		);
 	}
 
 	const object = await s3.send(
@@ -59,7 +86,10 @@ export const GET: RequestHandler = async ({ params }) => {
 	);
 
 	if (!object.Body) {
-		throw error(404, 'Member media was not found.');
+		throw error(
+			404,
+			'Member media was not found.'
+		);
 	}
 
 	const bytes =

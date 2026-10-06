@@ -2,8 +2,29 @@
 	import { onMount } from 'svelte';
 	import { applyTheme, loadTheme } from '$lib/theme/theme';
 
-	onMount(() => {
+	interface Account {
+		id: string;
+		username: string;
+	}
+
+	let account: Account | null = null;
+	let authLoading = true;
+
+	onMount(async () => {
 		applyTheme(loadTheme());
+
+		try {
+			const response = await fetch('/api/auth/session');
+			const data = await response.json();
+
+			if (response.ok && data.account) {
+				account = data.account;
+			}
+		} catch {
+			// The main TECSPA UI should still load if auth lookup fails.
+		} finally {
+			authLoading = false;
+		}
 	});
 </script>
 
@@ -31,6 +52,38 @@
 </svelte:head>
 
 <div class="tecspa-shell">
+	<nav class="account-bar" aria-label="Account">
+		<div class="account-bar-inner">
+			<a class="account-brand" href="/">
+				<span class="account-brand-mark">T</span>
+				<span>TECSPA</span>
+			</a>
+
+			{#if authLoading}
+				<div class="account-status">
+					<span class="account-loading">Checking account…</span>
+				</div>
+			{:else if account}
+				<div class="account-status">
+					<a class="account-user" href="/account">
+						<span class="account-avatar">
+							{account.username.slice(0, 1).toUpperCase()}
+						</span>
+
+						<span>@{account.username}</span>
+					</a>
+				</div>
+			{:else}
+				<div class="account-status">
+					<a class="account-link" href="/login">Sign in</a>
+					<a class="account-button" href="/register">
+						Create account
+					</a>
+				</div>
+			{/if}
+		</div>
+	</nav>
+
 	<div class="ornament ornament-top-left">
 		<span class="ornament-default">❦</span>
 		<span class="ornament-digital">✦</span>
@@ -1368,5 +1421,197 @@
 		padding-right: 12px;
 	}
 }
+
+	/* =========================================================
+	   ACCOUNT BAR
+	   ========================================================= */
+
+	.account-bar {
+		position: relative;
+		z-index: 10;
+		width: 100%;
+		padding: 14px 20px 0;
+	}
+
+	.account-bar-inner {
+		width: min(100%, 1200px);
+		min-height: 52px;
+		margin: 0 auto;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 16px;
+		padding: 8px 12px;
+		border: 1px solid color-mix(
+			in srgb,
+			var(--tecspa-accent) 30%,
+			transparent
+		);
+		border-radius: 14px;
+		background: color-mix(
+			in srgb,
+			var(--tecspa-background) 82%,
+			transparent
+		);
+		backdrop-filter: blur(12px);
+		box-shadow:
+			0 8px 28px rgba(0, 0, 0, 0.08),
+			inset 0 1px rgba(255, 255, 255, 0.45);
+	}
+
+	.account-brand,
+	.account-user,
+	.account-link,
+	.account-button {
+		text-decoration: none;
+	}
+
+	.account-brand {
+		display: inline-flex;
+		align-items: center;
+		gap: 9px;
+		color: var(--tecspa-text);
+		font-family: var(--tecspa-heading-font);
+		font-size: 0.9rem;
+		font-weight: 700;
+		letter-spacing: 0.04em;
+	}
+
+	.account-brand:hover,
+	.account-user:hover {
+		text-decoration: none;
+	}
+
+	.account-brand-mark {
+		width: 30px;
+		height: 30px;
+		display: grid;
+		place-items: center;
+		border: 1px solid var(--tecspa-accent);
+		border-radius: 8px;
+		background: color-mix(
+			in srgb,
+			var(--tecspa-accent) 12%,
+			var(--tecspa-background)
+		);
+		color: var(--tecspa-accent);
+		font-size: 0.78rem;
+		font-weight: 900;
+	}
+
+	.account-status {
+		display: flex;
+		align-items: center;
+		gap: 9px;
+	}
+
+	.account-loading {
+		font-size: 0.78rem;
+		opacity: 0.5;
+	}
+
+	.account-link {
+		padding: 7px 10px;
+		color: var(--tecspa-accent);
+		font-size: 0.8rem;
+		font-weight: 700;
+	}
+
+	.account-button {
+		padding: 8px 12px;
+		border: 1px solid var(--tecspa-accent);
+		border-radius: 9px;
+		background: var(--tecspa-accent);
+		color: white;
+		font-size: 0.78rem;
+		font-weight: 800;
+	}
+
+	.account-user {
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
+		padding: 5px 9px 5px 5px;
+		border: 1px solid color-mix(
+			in srgb,
+			var(--tecspa-accent) 25%,
+			transparent
+		);
+		border-radius: 999px;
+		color: var(--tecspa-text);
+		font-size: 0.8rem;
+		font-weight: 700;
+		background: color-mix(
+			in srgb,
+			var(--tecspa-background) 75%,
+			transparent
+		);
+	}
+
+	.account-avatar {
+		width: 27px;
+		height: 27px;
+		display: grid;
+		place-items: center;
+		border-radius: 50%;
+		background: var(--tecspa-accent);
+		color: white;
+		font-size: 0.7rem;
+		font-weight: 900;
+	}
+
+	.account-link:hover,
+	.account-button:hover,
+	.account-user:hover {
+		filter: brightness(1.06);
+	}
+
+	@media (max-width: 700px) {
+		.account-bar {
+			padding: 10px 10px 0;
+		}
+
+		.account-bar-inner {
+			min-height: 46px;
+			padding: 6px 8px;
+			border-radius: 11px;
+		}
+
+		.account-brand span:last-child {
+			display: none;
+		}
+
+		.account-brand-mark {
+			width: 28px;
+			height: 28px;
+		}
+
+		.account-link {
+			padding: 6px 7px;
+		}
+
+		.account-button {
+			padding: 7px 9px;
+		}
+
+		.account-user {
+			padding-right: 7px;
+			font-size: 0.75rem;
+		}
+	}
+
+	@media (max-width: 420px) {
+		.account-status {
+			gap: 4px;
+		}
+
+		.account-link {
+			display: none;
+		}
+
+		.account-button {
+			font-size: 0.72rem;
+		}
+	}
 
 </style>

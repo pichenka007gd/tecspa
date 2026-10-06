@@ -1,6 +1,8 @@
 import { json } from '@sveltejs/kit';
 
 import { pool } from '$lib/server/db/postgres';
+import { getAuthenticatedSystem } from '$lib/server/system';
+import type { Cookies } from '@sveltejs/kit';
 
 type FrontHistoryRow = {
 	id: string;
@@ -22,7 +24,14 @@ function mapFrontHistoryRow(
 	};
 }
 
-export async function GET() {
+export async function GET({
+	cookies
+}: {
+	cookies: Cookies;
+}) {
+
+	const { system } = await getAuthenticatedSystem(cookies);
+
 	const result = await pool.query<FrontHistoryRow>(
 		`
 			SELECT
@@ -32,8 +41,10 @@ export async function GET() {
 				ended_at,
 				note
 			FROM front_history
+			WHERE system_id = $1
 			ORDER BY started_at DESC
-		`
+		`,
+		[system.id]
 	);
 
 	return json(

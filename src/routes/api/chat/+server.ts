@@ -1,7 +1,8 @@
-import { json } from '@sveltejs/kit';
+import { json, error } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 
 import { pool } from '$lib/server/db/postgres';
+import { getAuthenticatedSystem } from '$lib/server/system';
 
 type ChatMessageRow = {
 	id: string;
@@ -23,7 +24,12 @@ function mapChatMessageRow(
 	};
 }
 
-export async function GET() {
+export const GET: RequestHandler = async ({
+	cookies
+}) => {
+	const { system } =
+		await getAuthenticatedSystem(cookies);
+
 	const result = await pool.query<ChatMessageRow>(
 		`
 			SELECT
@@ -33,8 +39,10 @@ export async function GET() {
 				created_at,
 				edited_at
 			FROM chat_messages
+			WHERE system_id = $1
 			ORDER BY created_at ASC
-		`
+		`,
+		[system.id]
 	);
 
 	return json({
@@ -42,11 +50,15 @@ export async function GET() {
 			mapChatMessageRow
 		)
 	});
-}
+};
 
 export const POST: RequestHandler = async ({
-	request
+	request,
+	cookies
 }) => {
+	const { system } =
+		await getAuthenticatedSystem(cookies);
+
 	const body = await request.json();
 
 	const senderMemberId =
@@ -77,6 +89,34 @@ export const POST: RequestHandler = async ({
 		);
 	}
 
+	/*
+	 * Make sure the selected sender actually belongs
+	 * to the authenticated user's TECSPA system.
+	 */
+	const memberResult = await pool.query(
+		`
+			SELECT id
+			FROM members
+			WHERE id = $1
+			  AND system_id = $2
+			LIMIT 1
+		`,
+		[
+			senderMemberId,
+			system.id
+		]
+	);
+
+	if (memberResult.rows.length === 0) {
+		return json(
+			{
+				error:
+					'The selected sender does not belong to your TECSPA system.'
+			},
+			{ status: 403 }
+		);
+	}
+
 	const id = crypto.randomUUID();
 	const createdAt = new Date().toISOString();
 
@@ -84,6 +124,7 @@ export const POST: RequestHandler = async ({
 		`
 			INSERT INTO chat_messages (
 				id,
+				system_id,
 				sender_member_id,
 				message,
 				created_at,
@@ -94,6 +135,7 @@ export const POST: RequestHandler = async ({
 				$2,
 				$3,
 				$4,
+				$5,
 				NULL
 			)
 			RETURNING
@@ -105,6 +147,7 @@ export const POST: RequestHandler = async ({
 		`,
 		[
 			id,
+			system.id,
 			senderMemberId,
 			message,
 			createdAt
@@ -114,7 +157,8 @@ export const POST: RequestHandler = async ({
 	if (result.rows.length === 0) {
 		return json(
 			{
-				error: 'Failed to create chat message.'
+				error:
+					'Failed to create chat message.'
 			},
 			{ status: 500 }
 		);

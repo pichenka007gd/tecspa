@@ -1,13 +1,18 @@
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 
-import { PutObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3';
+import {
+	PutObjectCommand,
+	DeleteObjectCommand
+} from '@aws-sdk/client-s3';
 
 import { pool } from '$lib/server/db/postgres';
 import {
 	MEMBER_MEDIA_BUCKET,
 	s3
 } from '$lib/server/storage/s3';
+
+import { getAuthenticatedSystem } from '$lib/server/system';
 
 import type { AmpersandImportData } from '$lib/importers/ampersand';
 
@@ -132,8 +137,12 @@ async function uploadEmbeddedImage(
 }
 
 export const POST: RequestHandler = async ({
-	request
+	request,
+	cookies
 }) => {
+	const { system } =
+		await getAuthenticatedSystem(cookies);
+
 	let importData: AmpersandImportData;
 
 	try {
@@ -217,6 +226,7 @@ export const POST: RequestHandler = async ({
 				`
 					INSERT INTO members (
 						id,
+						system_id,
 						name,
 						pronouns,
 						aliases,
@@ -241,14 +251,18 @@ export const POST: RequestHandler = async ({
 						$9,
 						$10,
 						$11,
-						$12
+						$12,
+						$13
 					)
 				`,
 				[
 					member.id,
+					system.id,
 					member.name,
 					member.pronouns,
-					JSON.stringify(member.aliases),
+					JSON.stringify(
+						member.aliases
+					),
 					member.role,
 					member.status,
 					member.about,
@@ -264,11 +278,15 @@ export const POST: RequestHandler = async ({
 				]
 			);
 
-			for (const field of member.customFields ?? []) {
+			for (
+				const field of
+					member.customFields ?? []
+			) {
 				await client.query(
 					`
 						INSERT INTO custom_fields (
 							id,
+							system_id,
 							member_id,
 							label,
 							type,
@@ -283,11 +301,13 @@ export const POST: RequestHandler = async ({
 							$4,
 							$5,
 							$6,
-							$7
+							$7,
+							$8
 						)
 					`,
 					[
 						field.id,
+						system.id,
 						member.id,
 						field.label,
 						field.type,
@@ -299,11 +319,32 @@ export const POST: RequestHandler = async ({
 			}
 		}
 
-		for (const entry of importData.frontHistory) {
+				const importedMemberIds =
+			new Set(
+				importData.members.map(
+					(item) => item.member.id
+				)
+			);
+
+		for (
+			const entry of
+				importData.frontHistory
+		) {
+			if (
+				!importedMemberIds.has(
+					entry.memberId
+				)
+			) {
+				throw new Error(
+					'The import contains front history for a member that is not part of the imported system.'
+				);
+			}
+
 			await client.query(
 				`
 					INSERT INTO front_history (
 						id,
+						system_id,
 						member_id,
 						started_at,
 						ended_at,
@@ -314,11 +355,13 @@ export const POST: RequestHandler = async ({
 						$2,
 						$3,
 						$4,
-						$5
+						$5,
+						$6
 					)
 				`,
 				[
 					entry.id,
+					system.id,
 					entry.memberId,
 					entry.startedAt,
 					entry.endedAt,
@@ -326,7 +369,7 @@ export const POST: RequestHandler = async ({
 				]
 			);
 		}
-
+		
 		await client.query('COMMIT');
 
 		transactionStarted = false;
@@ -346,7 +389,9 @@ export const POST: RequestHandler = async ({
 	} catch (error) {
 		if (transactionStarted) {
 			try {
-				await client.query('ROLLBACK');
+				await client.query(
+					'ROLLBACK'
+				);
 			} catch {
 				// Keep the original import error.
 			}

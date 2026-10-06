@@ -1,39 +1,55 @@
 import { json } from '@sveltejs/kit';
 
 import { pool } from '$lib/server/db/postgres';
+import { getAuthenticatedSystem } from '$lib/server/system';
+import type { Cookies } from '@sveltejs/kit';
 
-export async function GET() {
+export async function GET({
+	cookies
+}: {
+	cookies: Cookies;
+}) {
 	try {
-		const membersResult = await pool.query(`
-			SELECT
-				id,
-				name,
-				pronouns,
-				aliases,
-				role,
-				status,
-				about,
-				interests,
-				front_triggers,
-				avatar,
-				banner,
-				is_fronting
-			FROM members
-			ORDER BY name;
-		`);
+		const { system } = await getAuthenticatedSystem(cookies);
 
-		const customFieldsResult = await pool.query(`
-			SELECT
-				id,
-				member_id,
-				label,
-				type,
-				value,
-				description,
-				sort_order
-			FROM custom_fields
-			ORDER BY member_id, sort_order;
-		`);
+		const membersResult = await pool.query(
+			`
+				SELECT
+					id,
+					name,
+					pronouns,
+					aliases,
+					role,
+					status,
+					about,
+					interests,
+					front_triggers,
+					avatar,
+					banner,
+					is_fronting
+				FROM members
+				WHERE system_id = $1
+				ORDER BY name;
+			`,
+			[system.id]
+		);
+
+		const customFieldsResult = await pool.query(
+			`
+				SELECT
+					id,
+					member_id,
+					label,
+					type,
+					value,
+					description,
+					sort_order
+				FROM custom_fields
+				WHERE system_id = $1
+				ORDER BY member_id, sort_order;
+			`,
+			[system.id]
+		);
 
 		const customFieldsByMember = new Map<
 			string,
@@ -41,7 +57,9 @@ export async function GET() {
 		>();
 
 		for (const field of customFieldsResult.rows) {
-			const fields = customFieldsByMember.get(field.member_id) ?? [];
+			const fields =
+				customFieldsByMember.get(field.member_id) ?? [];
+
 			fields.push(field);
 			customFieldsByMember.set(field.member_id, fields);
 		}
@@ -65,6 +83,15 @@ export async function GET() {
 		return json(members);
 	} catch (error) {
 		console.error('Failed to load members:', error);
+
+		if (
+			error &&
+			typeof error === 'object' &&
+			'status' in error &&
+			typeof error.status === 'number'
+		) {
+			throw error;
+		}
 
 		return json(
 			{

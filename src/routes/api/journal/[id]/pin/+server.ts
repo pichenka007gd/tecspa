@@ -1,7 +1,9 @@
 import { error, json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
+import type { Cookies } from '@sveltejs/kit';
 
 import { pool } from '$lib/server/db/postgres';
+import { getAuthenticatedSystem } from '$lib/server/system';
 
 type JournalEntryRow = {
 	id: string;
@@ -41,9 +43,7 @@ function parseTags(value: unknown): string[] {
 	return [];
 }
 
-function mapJournalEntryRow(
-	row: JournalEntryRow
-) {
+function mapJournalEntryRow(row: JournalEntryRow) {
 	return {
 		id: row.id,
 		authorMemberId: row.author_member_id,
@@ -62,6 +62,7 @@ function mapJournalEntryRow(
 
 export const PATCH: RequestHandler = async ({
 	params,
+	cookies,
 	request
 }) => {
 	const { id } = params;
@@ -72,6 +73,8 @@ export const PATCH: RequestHandler = async ({
 			'Journal entry ID is required.'
 		);
 	}
+
+	const { system } = await getAuthenticatedSystem(cookies);
 
 	const body = await request.json();
 
@@ -95,6 +98,7 @@ export const PATCH: RequestHandler = async ({
 				is_pinned = $1,
 				updated_at = $2
 			WHERE id = $3
+				AND system_id = $4
 			RETURNING
 				id,
 				author_member_id,
@@ -109,7 +113,8 @@ export const PATCH: RequestHandler = async ({
 		[
 			isPinned,
 			updatedAt,
-			id
+			id,
+			system.id
 		]
 	);
 
